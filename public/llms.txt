@@ -1,0 +1,13 @@
+# Beakdown
+
+> Beakdown is a free single-player browser arcade game: fly a bird by flapping and destroy enemies by colliding with them from above, because the higher bird wins.
+
+## Pages
+
+- [Play Beakdown](https://beakdown.fun/): the game itself, no download or sign-up
+- [About Beakdown](https://beakdown.fun/about-beakdown): the complete reference, with rules, controls, power-ups, arenas, scoring and a long FAQ
+- [Flappy Bird unblocked](https://beakdown.fun/flappy-bird-unblocked): a playable page with an honest guide to the flap and one-button genre
+- [Flappy Bird 2](https://beakdown.fun/flappy-bird-2): why no sequel exists and what wears the name
+- [What happened to Flappy Bird](https://beakdown.fun/what-happened-to-flappy-bird): the sourced history, 2013 to today
+
+Made by Nathan Haslewood (https://nathanhaslewood.com.au).

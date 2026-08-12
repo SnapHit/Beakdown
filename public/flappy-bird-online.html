@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#150e1c">
+<title>Flappy Bird unblocked? Play Beakdown instead. No download</title>
+<meta name="description" content="Flappy Bird was pulled in 2014, and the reboot lives elsewhere. Here instead: Beakdown, a different flap-to-fly arcade game. Free, no sign-up, plays in the page.">
+<link rel="canonical" href="https://beakdown.fun/flappy-bird-online">
+<link rel="icon" type="image/png" href="/icon.png">
+<link rel="apple-touch-icon" href="/icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Flappy Bird unblocked? Play Beakdown instead">
+<meta property="og:description" content="The original was pulled in 2014. Beakdown is a different bird game you can play right now, free in your browser.">
+<meta property="og:url" content="https://beakdown.fun/flappy-bird-online">
+<meta property="og:image" content="https://beakdown.fun/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Flappy Bird unblocked? Play Beakdown instead">
+<meta name="twitter:description" content="The original was pulled in 2014. Beakdown is a different bird game you can play right now, free in your browser.">
+<meta name="twitter:image" content="https://beakdown.fun/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"Organization","@id":"https://beakdown.fun/#org","name":"Beakdown","url":"https://beakdown.fun/","sameAs":["https://nathanhaslewood.com.au"]},
+{"@type":"VideoGame","@id":"https://beakdown.fun/#game","name":"Beakdown","url":"https://beakdown.fun/","description":"A free browser arcade game where you fly by flapping and win every collision by being the higher bird.","genre":"Arcade","playMode":"SinglePlayer","gamePlatform":"Web browser","applicationCategory":"Game","operatingSystem":"Any","isAccessibleForFree":true,"author":{"@type":"Person","name":"Nathan Haslewood","url":"https://nathanhaslewood.com.au"},"publisher":{"@id":"https://beakdown.fun/#org"}},
+{"@type":"WebPage","@id":"https://beakdown.fun/flappy-bird-online","url":"https://beakdown.fun/flappy-bird-online","name":"Flappy Bird unblocked? Play Beakdown instead. No download","description":"Flappy Bird was pulled in 2014, and the reboot lives elsewhere. Here instead: Beakdown, a different flap-to-fly arcade game. Free, no sign-up, plays in the page.","about":{"@id":"https://beakdown.fun/#game"},"publisher":{"@id":"https://beakdown.fun/#org"},"inLanguage":"en-AU"}
+]}
+</script>
+<style>
+:root{--ground:#150e1c;--ink:#f2ece0;--gold:#ffc046;--dawn1:#ffd9a0;--dawn2:#e8804f;
+--rock:#2a1d33;--rocktop:#5a4066;--lip:#c98a6a;--dim:rgba(242,236,224,.62)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{color-scheme:dark}
+body{background:var(--ground);color:var(--ink);font:16px/1.65 system-ui,sans-serif;
+-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+a{color:var(--gold);text-decoration:underline;text-decoration-color:rgba(255,192,70,.45);
+text-underline-offset:2px}
+a:hover{text-decoration-color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+header.site{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+padding:22px 0 8px;flex-wrap:wrap}
+.mark{font-weight:600;font-size:17px;letter-spacing:.2em;text-decoration:none;
+background:linear-gradient(180deg,var(--dawn1),var(--dawn2));
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{font-style:italic;color:var(--gold);opacity:.85;font-size:13px}
+.hero{padding:30px 0 4px;background:
+radial-gradient(1px 1px at 16% 24%,rgba(242,236,224,.55),transparent 65%),
+radial-gradient(1px 1px at 78% 14%,rgba(242,236,224,.4),transparent 65%),
+radial-gradient(1.6px 1.6px at 60% 62%,rgba(255,192,70,.42),transparent 65%),
+radial-gradient(1px 1px at 34% 82%,rgba(242,236,224,.3),transparent 65%)}
+.eyebrow{font-size:11px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;
+font-variant-numeric:tabular-nums;margin-bottom:14px}
+h1{font-size:clamp(26px,4.6vw,38px);line-height:1.16;font-weight:650;letter-spacing:.01em}
+.lede{margin:18px 0 26px;font-size:18px;line-height:1.6;max-width:62ch}
+.perch{margin:6px 0 10px;background:linear-gradient(180deg,var(--rock),#20162b);
+border-top:3px solid var(--lip);border-radius:5px 5px 14px 14px;padding:10px 10px 16px;
+box-shadow:0 24px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(90,64,102,.6)}
+.frame{display:block;width:100%;height:auto;aspect-ratio:800/520;border:0;border-radius:8px;
+background:var(--ground)}
+@media(max-width:700px){.frame{aspect-ratio:auto;height:min(76vh,640px);height:min(76svh,640px)}}
+.controls{font-size:13px;color:var(--dim);margin:10px 2px 0;line-height:1.6}
+.controls b{color:var(--gold);font-weight:600}
+section{margin:40px 0}
+h2{font-size:21px;font-weight:650;margin-bottom:12px}
+h3{font-size:16.5px;font-weight:650;margin:20px 0 6px}
+p{max-width:66ch;margin:0 0 14px}
+section p:last-child{margin-bottom:0}
+.tblwrap{overflow-x:auto;margin:18px 0}
+table{border-collapse:collapse;width:100%;min-width:660px;font-size:14px;line-height:1.5}
+th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid rgba(90,64,102,.45);
+vertical-align:top}
+th{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:600}
+td:first-child{color:var(--gold);font-weight:600;white-space:nowrap}
+.faq h3{margin:22px 0 6px}
+.faq p{max-width:70ch}
+.rule{border:0;border-top:1px dashed rgba(255,192,70,.35);margin:44px 0 4px}
+footer.site{border-top:1px solid rgba(90,64,102,.45);margin-top:46px;padding:20px 0 46px;
+font-size:12px;letter-spacing:.06em;color:var(--dim);display:flex;gap:10px 22px;
+flex-wrap:wrap;justify-content:space-between}
+footer.site a{color:inherit;text-decoration-color:rgba(242,236,224,.3)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is this Flappy Bird?", "acceptedAnswer": {"@type": "Answer", "text": "No. Beakdown is an original game with its own rules: you fly by flapping, and when two birds collide the higher one wins. It shares a control instinct with the game you searched for and nothing else. This page exists because people searching that phrase usually just want something good to play right now."}}, {"@type": "Question", "name": "Do I need to download or install anything?", "acceptedAnswer": {"@type": "Answer", "text": "No. The game is a single web page that runs in the browser you already have. There is no app, no plugin and no extension."}}, {"@type": "Question", "name": "Will it work on a school or work network?", "acceptedAnswer": {"@type": "Answer", "text": "It loads from beakdown.fun with nothing to install, which is the most a page can honestly say. Whether a particular filter allows the site is that network's decision, and no game page can promise its way around one."}}, {"@type": "Question", "name": "Is it free, and are there ads?", "acceptedAnswer": {"@type": "Answer", "text": "Completely free, no ads, nothing to buy. There is no catch to find."}}, {"@type": "Question", "name": "Do I need an account?", "acceptedAnswer": {"@type": "Answer", "text": "No. There is no sign-up, no login and no profile. You open the page and play."}}, {"@type": "Question", "name": "What data does it collect?", "acceptedAnswer": {"@type": "Answer", "text": "The game stores one thing: your best score, kept in your own browser. The site uses Cloudflare's cookieless analytics to count visits, and nothing identifies you."}}, {"@type": "Question", "name": "How do the touch controls work?", "acceptedAnswer": {"@type": "Answer", "text": "Hold the left or right half of the screen to fly that way; the bird flaps automatically while you hold. Quick taps flap faster and add a sideways kick, which is the more precise option once you are comfortable."}}, {"@type": "Question", "name": "What are the keyboard controls?", "acceptedAnswer": {"@type": "Answer", "text": "Left and right arrows or A and D to steer, space to climb straight up, and any key starts a run. Holding a key climbs steadily; tapping is quicker and sharper."}}, {"@type": "Question", "name": "How do I win a fight?", "acceptedAnswer": {"@type": "Answer", "text": "Be higher than the other bird when you collide. That is the entire rule. If you are close to level, both birds bounce apart and nobody dies."}}, {"@type": "Question", "name": "Why is the original not in the app stores?", "acceptedAnswer": {"@type": "Answer", "text": "Its creator removed it himself in February 2014, saying it had become too addictive. The full story, including what happened to the name a decade later, is on this site's history page."}}, {"@type": "Question", "name": "Where can I play the original now?", "acceptedAnswer": {"@type": "Answer", "text": "The closest thing is the 2024 remake at flappybird.org, released under new owners after the trademark changed hands. The version Dong Nguyen made in 2013 has never returned."}}, {"@type": "Question", "name": "Does Beakdown work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Once the page has loaded, the game keeps running if your connection drops, because everything it needs is already in the page. Reloading needs the network back; there is no offline install."}}, {"@type": "Question", "name": "Is there sound?", "acceptedAnswer": {"@type": "Answer", "text": "Not yet. The game is deliberately silent for now, which also makes it a quiet neighbour in a classroom or an office."}}, {"@type": "Question", "name": "Is there a two-player mode?", "acceptedAnswer": {"@type": "Answer", "text": "Not yet; Beakdown is single-player today. If that changes, the site will say so."}}]}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+<header class="site">
+  <a class="mark" href="/">BEAKDOWN</a>
+  <span class="tag">Settle the pecking order.</span>
+</header>
+
+<main>
+<div class="hero">
+  <p class="eyebrow">Free browser arcade · nothing to install</p>
+  <h1>Flappy Bird unblocked: the honest version of that page</h1>
+  <p class="lede">Beakdown is not Flappy Bird, and this page will not pretend otherwise.
+  It is a different bird game, it loads free in your browser with nothing to install,
+  and it is playable right here. What actually happened to the game you searched for
+  is a little further down, along with a link to where it lives now.</p>
+</div>
+
+<div class="perch">
+  <iframe id="game" class="frame" src="/" width="800" height="520" loading="eager"
+    title="Beakdown, a playable arcade game. Hold the left or right side of the screen to fly that way. On a keyboard, use the arrow keys or A and D to steer and space to climb."></iframe>
+</div>
+<p class="controls"><b>Touch:</b> hold the left or right half of the screen to fly that way.
+<b>Keyboard:</b> left and right arrows or A and D to steer, space to climb. Any key starts.
+Every clash goes to the higher bird.</p>
+
+<hr class="rule">
+
+<section>
+  <h2>What you are actually playing</h2>
+  <p>Beakdown is an original arcade game, not a rework of the one in your search bar.
+  You fly by flapping, and you fight by flying: when two birds collide, the higher one
+  wins, so every enemy is a duel decided by altitude. Around that one rule sits a whole
+  run: eggs to snatch before they hatch into fresh enemies, a star that briefly turns
+  you from prey into predator, and waves that keep escalating while the ground changes
+  beneath you. There are no pipes and no corridor.</p>
+  <p>If you want the original exactly as it was, the story and the link are further
+  down. If the question you had was whether a sequel exists,
+  <a href="/flappy-bird-2">that answer has its own page</a>. And if you want every rule
+  and number in one place, <a href="/about-beakdown">the complete Beakdown reference</a>
+  covers it.</p>
+</section>
+
+<section>
+  <h2>How Beakdown works</h2>
+  <h3>The one rule</h3>
+  <p>Every clash compares height. The bird whose crest is higher when two bodies meet
+  wins, and the loser is destroyed. If the two are within a whisker of level, nobody
+  dies; both bounce apart. Nothing else decides a fight, and the game teaches it
+  without a word: on every clash it freezes for a beat and draws a line at each bird's
+  height, so you can see exactly why it went the way it did.</p>
+  <h3>Controls, and why holding feels different</h3>
+  <p>On touch, hold the left or right half of the screen and the bird auto-flaps five
+  times a second while drifting that way, which climbs steadily with one thumb.
+  Deliberate taps flap faster, up to nearly nine a second, and each tap adds a sideways
+  kick, so tapping is the sharper, more skilled option. On a keyboard, the arrows or
+  A and D steer, space climbs, and holding a key behaves like holding the screen.
+  A mouse works like touch: click and hold either half.</p>
+  <h3>Three power-ups, three different economies</h3>
+  <p>A star grants about seven seconds of invincibility, during which any contact
+  destroys the enemy for 1000 points; it turns up roughly once every couple of waves
+  and inverts the whole game while it lasts. A heart adds one life, with no cap.
+  A mushroom makes you about a third larger with a proportionally higher crest, so
+  clashes tilt your way, and it absorbs one losing clash instead of costing a life.
+  It also expires where it sits and reappears somewhere else, so keeping the edge
+  means crossing the arena to chase it.</p>
+  <h3>Eggs are the clock</h3>
+  <p>Every downed enemy drops an egg worth 250 points. In the first three waves eggs
+  simply rot if you ignore them. From wave four they hatch into fresh enemies, faster
+  the deeper you go, down to a floor of four seconds, and each egg keeps the hatch
+  timer of the wave it fell in.</p>
+  <h3>The ground keeps moving</h3>
+  <p>There are twelve arena layouts, each also played mirrored, so 24 distinct grounds
+  rotate through a run. The arena changes every three waves, and nothing repeats until
+  wave 72.</p>
+  <h3>Scoring, lives and what it keeps</h3>
+  <p>A standard bird is worth 500, the fast red hunters 750, any kill while invincible
+  1000, and eggs 250. You start with three lives, earn a guaranteed extra every five
+  waves, and hearts stack on top of that. The only thing the game stores is your best
+  score, in your own browser. It is free, has no ads and needs no account, and once
+  loaded it keeps running if the connection drops; only a reload needs the network
+  back.</p>
+</section>
+
+<section>
+  <h2>Where the original went</h2>
+  <p>Flappy Bird was removed from both app stores in February 2014 by its own creator,
+  Dong Nguyen, at the height of its success. His stated reason was that it had become
+  too addictive. It stayed gone for a decade.</p>
+  <p>In January 2024 the trademark was terminated in a proceeding brought by a company
+  called Gametech Holdings, and that September the new holders, operating as
+  The Flappy Bird Foundation, announced a reboot under the old name. Nguyen has publicly
+  said he has no involvement in it and sold nothing. The reboot is real and playable,
+  first on Telegram and then on mobile through 2025, and it lives at
+  <a href="https://flappybird.org/" rel="noopener">flappybird.org</a>.
+  The full story, which is stranger than that summary, is here:
+  <a href="/what-happened-to-flappy-bird">what happened to Flappy Bird</a>.</p>
+</section>
+
+<section id="other-games">
+  <h2>Other games worth your time</h2>
+  <p>Fair orientation, because the search that brought you here has more than one good
+  answer. These are the notable games in the flap and one-button family, what each is,
+  and who each suits. Where one of them is the better choice for you than Beakdown,
+  it says so.</p>
+  <div class="tblwrap">
+  <table>
+    <thead>
+      <tr><th scope="col">Game</th><th scope="col">What it is</th>
+      <th scope="col">Free in a browser</th><th scope="col">Best for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Flappy Bird (2013)</td>
+      <td>The original: one tap to flap, pipes, instant death. Removed by its creator
+      in 2014.</td>
+      <td>No. Gone from stores since 2014.</td>
+      <td>Historical reference; the loop everything else orbits.</td></tr>
+      <tr><td><a href="https://flappybird.org/" rel="noopener">Flappy Bird (2024)</a></td>
+      <td>A remake under new owners, on the web, Telegram and mobile.</td>
+      <td>Partly. Web and Telegram versions exist; mobile is an app.</td>
+      <td>Anyone who wants the exact original loop today.</td></tr>
+      <tr><td>Beakdown</td>
+      <td>Fly by flapping; the higher bird wins every collision. Waves, eggs,
+      power-ups, 24 arenas.</td>
+      <td>Yes. This site, no sign-up.</td>
+      <td>Players who want a run that escalates and asks for positioning, not just
+      timing.</td></tr>
+      <tr><td>Chrome Dino</td>
+      <td>The jump-the-cacti runner built into Chrome. Type chrome://dino, or just go
+      offline.</td>
+      <td>Yes. Built into the browser and works with no network at all.</td>
+      <td>Zero setup on a locked-down machine.</td></tr>
+      <tr><td><a href="https://www.robtopgames.com/" rel="noopener">Geometry Dash</a></td>
+      <td>A one-button rhythm platformer with brutal, musical levels.</td>
+      <td>No. Paid app; a free Lite version exists on mobile.</td>
+      <td>Precision players who want one button under music.</td></tr>
+      <tr><td><a href="https://www.halfbrick.com/" rel="noopener">Jetpack Joyride</a></td>
+      <td>Hold to rise, release to fall, dodge everything, collect coins.</td>
+      <td>No. A free mobile app with ads.</td>
+      <td>One-thumb sessions on a phone.</td></tr>
+      <tr><td>Balloon Fight (1984)</td>
+      <td>Flap-powered duels for early Nintendo consoles, still on Nintendo's
+      subscription service.</td>
+      <td>No. Console only.</td>
+      <td>Console players who like their arcade history playable.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Plain talk about where Beakdown is the weaker pick. If you want the exact original
+  experience, one button and pipes, Beakdown will not scratch that itch; the remake or
+  a faithful clone will serve you better. If you need something that runs with no
+  network at all, the Dino is already on your machine and needs nothing. If what you
+  love is one-button precision under music, Geometry Dash is the sharper tool.
+  Beakdown's case is different: it is for the player who wants a bird game with
+  somewhere to go.</p>
+  <p>There are also hundreds of browser clones of the original. They are
+  interchangeable, most exist to wrap the loop in ads, and none needs a link.</p>
+</section>
+
+<section>
+  <h2>About pages like this one</h2>
+  <p>Search any old browser game plus the word unblocked and you get pages like this one:
+  something playable, reachable from networks where the usual game sites are filtered.
+  Here is what this page can honestly offer. Beakdown is a single self-contained file,
+  it needs no download, no account and no plugins, and there is nothing to buy.</p>
+  <p>Whether it loads on your particular network is your network's decision, and any page
+  that promises otherwise is lying to you. If it loads, you can play. That is the whole deal.</p>
+</section>
+
+<section class="faq" id="faq">
+  <h2>Questions people actually ask</h2>
+  <h3>Is this Flappy Bird?</h3>
+  <p>No. Beakdown is an original game with its own rules: you fly by flapping, and when
+  two birds collide the higher one wins. It shares a control instinct with the game you
+  searched for and nothing else. This page exists because people searching that phrase
+  usually just want something good to play right now.</p>
+  <h3>Do I need to download or install anything?</h3>
+  <p>No. The game is a single web page that runs in the browser you already have.
+  There is no app, no plugin and no extension.</p>
+  <h3>Will it work on a school or work network?</h3>
+  <p>It loads from beakdown.fun with nothing to install, which is the most a page can
+  honestly say. Whether a particular filter allows the site is that network's decision,
+  and no game page can promise its way around one.</p>
+  <h3>Is it free, and are there ads?</h3>
+  <p>Completely free, no ads, nothing to buy. There is no catch to find.</p>
+  <h3>Do I need an account?</h3>
+  <p>No. There is no sign-up, no login and no profile. You open the page and play.</p>
+  <h3>What data does it collect?</h3>
+  <p>The game stores one thing: your best score, kept in your own browser. The site
+  uses Cloudflare's cookieless analytics to count visits, and nothing identifies you.</p>
+  <h3>How do the touch controls work?</h3>
+  <p>Hold the left or right half of the screen to fly that way; the bird flaps
+  automatically while you hold. Quick taps flap faster and add a sideways kick, which
+  is the more precise option once you are comfortable.</p>
+  <h3>What are the keyboard controls?</h3>
+  <p>Left and right arrows or A and D to steer, space to climb straight up, and any key
+  starts a run. Holding a key climbs steadily; tapping is quicker and sharper.</p>
+  <h3>How do I win a fight?</h3>
+  <p>Be higher than the other bird when you collide. That is the entire rule. If you
+  are close to level, both birds bounce apart and nobody dies.</p>
+  <h3>Why is the original not in the app stores?</h3>
+  <p>Its creator removed it himself in February 2014, saying it had become too
+  addictive. The full story, including what happened to the name a decade later, is on
+  this site's <a href="/what-happened-to-flappy-bird">history page</a>.</p>
+  <h3>Where can I play the original now?</h3>
+  <p>The closest thing is the 2024 remake at
+  <a href="https://flappybird.org/" rel="noopener">flappybird.org</a>, released under
+  new owners after the trademark changed hands. The version Dong Nguyen made in 2013
+  has never returned.</p>
+  <h3>Does Beakdown work offline?</h3>
+  <p>Once the page has loaded, the game keeps running if your connection drops, because
+  everything it needs is already in the page. Reloading needs the network back; there
+  is no offline install.</p>
+  <h3>Is there sound?</h3>
+  <p>Not yet. The game is deliberately silent for now, which also makes it a quiet
+  neighbour in a classroom or an office.</p>
+  <h3>Is there a two-player mode?</h3>
+  <p>Not yet; Beakdown is single-player today. If that changes, the site will say so.</p>
+</section>
+</main>
+
+<footer class="site">
+  <span>Beakdown lives at <a href="/">beakdown.fun</a></span>
+  <span>made by <a href="https://nathanhaslewood.com.au" rel="noopener">Nathan Haslewood</a></span>
+</footer>
+
+</div>
+<script>
+(function(){
+  var f=document.getElementById('game');
+  if(!f)return;
+  var GK={' ':1,'ArrowLeft':1,'ArrowRight':1,'a':1,'d':1,'A':1,'D':1};
+  function fw(){try{return f.contentWindow;}catch(e){return null;}}
+  function focusGame(){var w=fw();if(w){try{w.focus();}catch(e){}}}
+  function nearViewport(){
+    var r=f.getBoundingClientRect();
+    return r.bottom>60&&r.top<window.innerHeight-60;
+  }
+  function relay(type,e){
+    if(!GK[e.key]||e.metaKey||e.ctrlKey||e.altKey)return;
+    var t=e.target;
+    if(t&&t!==document.body&&t!==document.documentElement)return;
+    if(!nearViewport())return;
+    var w=fw();
+    if(!w||!w.document)return;
+    if(w.document.hasFocus&&w.document.hasFocus())return;
+    e.preventDefault();
+    focusGame();
+    try{w.dispatchEvent(new w.KeyboardEvent(type,{key:e.key,repeat:!!e.repeat}));}
+    catch(err){
+      try{w.dispatchEvent(new KeyboardEvent(type,{key:e.key,repeat:!!e.repeat}));}catch(e2){}
+    }
+  }
+  window.addEventListener('keydown',function(e){relay('keydown',e);});
+  window.addEventListener('keyup',function(e){relay('keyup',e);});
+})();
+</script>
+</body>
+</html>

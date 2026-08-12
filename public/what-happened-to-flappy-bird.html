@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#150e1c">
+<title>What happened to Flappy Bird? The whole story, 2013 to today</title>
+<meta name="description" content="Made by one developer, deleted at its peak in 2014, and revived a decade later by owners the creator disavowed. The full story of Flappy Bird, with sources.">
+<link rel="canonical" href="https://beakdown.fun/what-happened-to-flappy-bird">
+<link rel="icon" type="image/png" href="/icon.png">
+<link rel="apple-touch-icon" href="/icon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What happened to Flappy Bird? The whole story">
+<meta property="og:description" content="Made by one developer, deleted at its peak, revived a decade later by owners the creator disavowed. The full story, with sources.">
+<meta property="og:url" content="https://beakdown.fun/what-happened-to-flappy-bird">
+<meta property="og:image" content="https://beakdown.fun/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What happened to Flappy Bird? The whole story">
+<meta name="twitter:description" content="Made by one developer, deleted at its peak, revived a decade later by owners the creator disavowed. The full story, with sources.">
+<meta name="twitter:image" content="https://beakdown.fun/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"Organization","@id":"https://beakdown.fun/#org","name":"Beakdown","url":"https://beakdown.fun/","sameAs":["https://nathanhaslewood.com.au"]},
+{"@type":"Article","@id":"https://beakdown.fun/what-happened-to-flappy-bird#article","headline":"What happened to Flappy Bird","description":"Made by one developer, deleted at its peak in 2014, and revived a decade later by owners the creator disavowed. The full story of Flappy Bird, with sources.","datePublished":"2026-07-26","dateModified":"2026-07-27","inLanguage":"en-AU","mainEntityOfPage":"https://beakdown.fun/what-happened-to-flappy-bird","author":{"@type":"Person","name":"Nathan Haslewood","url":"https://nathanhaslewood.com.au"},"publisher":{"@id":"https://beakdown.fun/#org"},"about":[{"@type":"VideoGame","name":"Flappy Bird","datePublished":"2013-05-24","author":{"@type":"Person","name":"Dong Nguyen"}},{"@type":"VideoGame","name":"Flappy Bird (2024 video game)","publisher":{"@type":"Organization","name":"Gametech Holdings"}}]}
+]}
+</script>
+<style>
+:root{--ground:#150e1c;--ink:#f2ece0;--gold:#ffc046;--dawn1:#ffd9a0;--dawn2:#e8804f;
+--rock:#2a1d33;--rocktop:#5a4066;--lip:#c98a6a;--dim:rgba(242,236,224,.62)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{color-scheme:dark}
+body{background:var(--ground);color:var(--ink);font:16px/1.65 system-ui,sans-serif;
+-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+a{color:var(--gold);text-decoration:underline;text-decoration-color:rgba(255,192,70,.45);
+text-underline-offset:2px}
+a:hover{text-decoration-color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+header.site{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+padding:22px 0 8px;flex-wrap:wrap}
+.mark{font-weight:600;font-size:17px;letter-spacing:.2em;text-decoration:none;
+background:linear-gradient(180deg,var(--dawn1),var(--dawn2));
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{font-style:italic;color:var(--gold);opacity:.85;font-size:13px}
+.hero{padding:30px 0 4px;background:
+radial-gradient(1px 1px at 16% 24%,rgba(242,236,224,.55),transparent 65%),
+radial-gradient(1px 1px at 78% 14%,rgba(242,236,224,.4),transparent 65%),
+radial-gradient(1.6px 1.6px at 60% 62%,rgba(255,192,70,.42),transparent 65%),
+radial-gradient(1px 1px at 34% 82%,rgba(242,236,224,.3),transparent 65%)}
+.eyebrow{font-size:11px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;
+font-variant-numeric:tabular-nums;margin-bottom:14px}
+h1{font-size:clamp(26px,4.6vw,38px);line-height:1.16;font-weight:650;letter-spacing:.01em}
+.lede{margin:18px 0 26px;font-size:18px;line-height:1.6;max-width:62ch}
+section{margin:40px 0}
+h2{font-size:21px;font-weight:650;margin-bottom:12px}
+h3{font-size:16.5px;font-weight:650;margin:20px 0 6px}
+p{max-width:66ch;margin:0 0 14px}
+section p:last-child{margin-bottom:0}
+.faq h3{margin:22px 0 6px}
+.faq p{max-width:70ch}
+.rule{border:0;border-top:1px dashed rgba(255,192,70,.35);margin:44px 0 4px}
+footer.site{border-top:1px solid rgba(90,64,102,.45);margin-top:46px;padding:20px 0 46px;
+font-size:12px;letter-spacing:.06em;color:var(--dim);display:flex;gap:10px 22px;
+flex-wrap:wrap;justify-content:space-between}
+footer.site a{color:inherit;text-decoration-color:rgba(242,236,224,.3)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Who made Flappy Bird?", "acceptedAnswer": {"@type": "Answer", "text": "Dong Nguyen, a solo developer in Vietnam, released it in May 2013 under his studio name .GEARS. He built and ran it alone."}}, {"@type": "Question", "name": "When was it removed, exactly?", "acceptedAnswer": {"@type": "Answer", "text": "He announced the takedown on 8 February 2014, gave 22 hours of notice, and removed it from both app stores on 10 February 2014."}}, {"@type": "Question", "name": "Why did he really delete it?", "acceptedAnswer": {"@type": "Answer", "text": "His stated reason, at the time and consistently since, was guilt over how addictive it had become. He said there was no legal threat and he was not selling it."}}, {"@type": "Question", "name": "Was Nintendo behind the removal?", "acceptedAnswer": {"@type": "Answer", "text": "No. That rumour circulated at the time, but Nguyen was explicit that there was no legal issue of any kind, and no company ever produced a claim. The decision was his."}}, {"@type": "Question", "name": "How much money was it making?", "acceptedAnswer": {"@type": "Answer", "text": "At its peak, Nguyen told Forbes it was earning roughly US$50,000 a day in advertising, while the game itself stayed free."}}, {"@type": "Question", "name": "Did phones with it installed really sell for thousands?", "acceptedAnswer": {"@type": "Answer", "text": "Listings appeared at absurd prices in the days after the removal, and the spectacle was widely reported. How many actually sold at those numbers is murkier, which is worth remembering when the story gets retold."}}, {"@type": "Question", "name": "What is .GEARS?", "acceptedAnswer": {"@type": "Answer", "text": "The one-person studio name Dong Nguyen released his games under. It was him."}}, {"@type": "Question", "name": "What happened to the trademark?", "acceptedAnswer": {"@type": "Answer", "text": "Gametech Holdings filed to have it declared abandoned, and on 12 January 2024 the registration was terminated, with Nguyen not contesting it. Control of the name passed away from the game's creator."}}, {"@type": "Question", "name": "Is the 2024 game official?", "acceptedAnswer": {"@type": "Answer", "text": "Its owners call it the official return, the creator publicly disavows it, and Wikipedia classifies it as a separate, unofficial work. This page states the record and lets you weigh the labels."}}, {"@type": "Question", "name": "Is there a real FLAP token?", "acceptedAnswer": {"@type": "Answer", "text": "No. Mining tied to the Telegram version ended quietly in April 2025 with no launch, and the owners have since said any Web3 game claiming to be the official Flappy Bird is a scam."}}, {"@type": "Question", "name": "Is the original coming back?", "acceptedAnswer": {"@type": "Answer", "text": "The original as Nguyen shipped it has been gone since February 2014, and nothing he has said suggests a return. The name is back under different owners; the game he made is not."}}, {"@type": "Question", "name": "What is Piou Piou vs. Cactus?", "acceptedAnswer": {"@type": "Answer", "text": "A 2009 game widely regarded as the original's inspiration. The new trademark owners acquired its rights and engaged its developer, a point they cite for legitimacy."}}]}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+<header class="site">
+  <a class="mark" href="/">BEAKDOWN</a>
+  <span class="tag">The story · 2013 to today</span>
+</header>
+
+<main>
+<div class="hero">
+  <p class="eyebrow">One game, one deletion, one contested return</p>
+  <h1>What happened to Flappy Bird</h1>
+  <p class="lede">The short answer: its creator deleted it on purpose, at its peak, in
+  February 2014, and it stayed gone for a decade. Then the trademark changed hands in a
+  proceeding he did not contest, and in 2024 a new company relaunched the name in a form
+  he publicly refuses to endorse. The long answer is stranger, and worth the few minutes.</p>
+</div>
+
+<hr class="rule">
+
+<section>
+  <h2>A solo developer and an accidental phenomenon</h2>
+  <p>Dong Nguyen built Flappy Bird alone in Vietnam and released it on
+  <a href="https://en.wikipedia.org/wiki/Flappy_Bird" rel="noopener">24 May 2013</a>
+  under his studio name .GEARS. For months almost nobody noticed. A review from the
+  YouTuber PewDiePie is usually credited with lighting the fuse, and the app stores'
+  own feedback loops did the rest.</p>
+  <p>By January 2014 it was the most downloaded free game on the iPhone, and Nguyen told
+  Forbes it was earning roughly US$50,000 a day in advertising. One person, one absurdly
+  hard tap game, and the biggest audience in mobile gaming.</p>
+</section>
+
+<section>
+  <h2>The 22 hour warning</h2>
+  <p>On 8 February 2014 Nguyen posted that he would take the game down in 22 hours. He
+  was not selling it, and there was no legal threat. He wrote that
+  <a href="https://www.gamesradar.com/games/action/10-years-after-flappy-birds-creator-declared-i-cannot-take-this-anymore-the-flappy-bird-foundation-has-bizarrely-snatched-the-rights-to-bring-the-game-back-to-life/" rel="noopener">"I cannot take this anymore"</a>,
+  and on 10 February he removed it from both stores. His stated reason, then and since,
+  was guilt over how addictive the game had become.</p>
+  <p>The aftermath was genuinely odd. Phones with the game still installed were
+  <a href="https://en.wikipedia.org/wiki/Flappy_Bird" rel="noopener">listed for sale at absurd prices</a>,
+  and the stores flooded with clones scrambling to inherit the audience. Deleting the
+  most popular game in the world turned out to be excellent marketing for everyone
+  except its maker.</p>
+</section>
+
+<section>
+  <h2>The quiet decade</h2>
+  <p>Nguyen kept making small games and mostly stopped talking. An official variant,
+  Flappy Birds Family, appeared on Amazon's Fire TV in August 2014, the original never
+  returned to any store, and after 2017 his account went silent. The game passed into
+  folklore as the thing that was deleted at its peak.</p>
+</section>
+
+<section>
+  <h2>The trademark changes hands</h2>
+  <p>Silence has legal consequences. A company called Gametech Holdings filed to have
+  the Flappy Bird trademark declared abandoned, and on
+  <a href="https://en.wikipedia.org/wiki/Flappy_Bird_(2024_video_game)" rel="noopener">12 January 2024</a>
+  it was terminated, with Nguyen not contesting the proceeding. Whoever holds a mark
+  controls the name.</p>
+  <p>For the record, the new owners tell a longer custody story, through earlier holders
+  <a href="https://www.coindesk.com/web3/2024/09/19/flappy-bird-foundation-flaps-back-at-critics-says-they-are-true-successors-of-the-2013-hit" rel="noopener">reaching back to 2018</a>.
+  Either way, by 2024 the name no longer belonged to the man who made the game.</p>
+</section>
+
+<section>
+  <h2>A reboot he wants nothing to do with</h2>
+  <p>On 12 September 2024 the new holders, operating as The Flappy Bird Foundation,
+  announced a reboot. The director is Michael Roberts, who also heads 1208 Productions,
+  a company working in cryptocurrency and NFTs. The first release came on Telegram that
+  same month, integrated with the TON blockchain and with a
+  <a href="https://esportsinsider.com/2025/05/flappy-bird-reboot-epic-games-store-crypto" rel="noopener">FLAP token planned</a>.
+  A researcher, Varun Biniwale, found references to Solana and Web 3.0 on
+  <a href="https://varun.ch/posts/flappy-bird" rel="noopener">unlisted pages of the Foundation's site</a>
+  while its public materials said nothing about crypto.</p>
+  <p>Three days after the announcement, Nguyen posted for the first time since 2017:
+  he had no involvement in the project, he had sold nothing, and, in his words,
+  <a href="https://www.coindesk.com/web3/2024/09/19/flappy-bird-foundation-flaps-back-at-critics-says-they-are-true-successors-of-the-2013-hit" rel="noopener">"I also don't support crypto"</a>.
+  The Foundation, for its part, acquired the rights to Piou Piou vs. Cactus, the 2009
+  game widely regarded as the original's inspiration, and engaged its developer.</p>
+</section>
+
+<section>
+  <h2>Where it is now</h2>
+  <p>The reboot is real and playable. After Telegram, it reached Android through the
+  Epic Games Store in April 2025, marketed explicitly as free of Web3 features, and
+  Wikipedia lists iOS, Android and web versions across 2025. The FLAP token's mining
+  ended quietly in April 2025 with no launch, and the Foundation has since said that
+  <a href="https://esportsinsider.com/2025/05/flappy-bird-reboot-epic-games-store-crypto" rel="noopener">any Web3 game claiming to be the official Flappy Bird is a scam</a>
+  and that no such token exists.</p>
+  <p>Its home is <a href="https://flappybird.org/" rel="noopener">flappybird.org</a>,
+  where it calls itself the official return. That framing is contested: the creator
+  disavows it, and Wikipedia classifies it as a
+  <a href="https://en.wikipedia.org/wiki/Flappy_Bird_(2024_video_game)" rel="noopener">separate, unofficial work</a>.</p>
+  <p>So, is it coming back? A version of it is already back, under owners its maker
+  never chose. The game as Dong Nguyen shipped it in 2013 has been gone since February
+  2014, and nothing he has said suggests that will change. Judge the rest for yourself.</p>
+</section>
+
+<section class="faq" id="faq">
+  <h2>Questions people actually ask</h2>
+  <h3>Who made Flappy Bird?</h3>
+  <p>Dong Nguyen, a solo developer in Vietnam, released it in May 2013 under his studio
+  name .GEARS. He built and ran it alone.</p>
+  <h3>When was it removed, exactly?</h3>
+  <p>He announced the takedown on 8 February 2014, gave 22 hours of notice, and removed
+  it from both app stores on 10 February 2014.</p>
+  <h3>Why did he really delete it?</h3>
+  <p>His stated reason, at the time and consistently since, was guilt over how
+  addictive it had become. He said there was no legal threat and he was not selling it.</p>
+  <h3>Was Nintendo behind the removal?</h3>
+  <p>No. That rumour circulated at the time, but Nguyen was explicit that there was no
+  legal issue of any kind, and no company ever produced a claim. The decision was his.</p>
+  <h3>How much money was it making?</h3>
+  <p>At its peak, Nguyen told Forbes it was earning roughly US$50,000 a day in
+  advertising, while the game itself stayed free.</p>
+  <h3>Did phones with it installed really sell for thousands?</h3>
+  <p>Listings appeared at absurd prices in the days after the removal, and the
+  spectacle was widely reported. How many actually sold at those numbers is murkier,
+  which is worth remembering when the story gets retold.</p>
+  <h3>What is .GEARS?</h3>
+  <p>The one-person studio name Dong Nguyen released his games under. It was him.</p>
+  <h3>What happened to the trademark?</h3>
+  <p>Gametech Holdings filed to have it declared abandoned, and on 12 January 2024 the
+  registration was terminated, with Nguyen not contesting it. Control of the name
+  passed away from the game's creator.</p>
+  <h3>Is the 2024 game official?</h3>
+  <p>Its owners call it the official return, the creator publicly disavows it, and
+  Wikipedia classifies it as a separate, unofficial work. This page states the record
+  and lets you weigh the labels.</p>
+  <h3>Is there a real FLAP token?</h3>
+  <p>No. Mining tied to the Telegram version ended quietly in April 2025 with no
+  launch, and the owners have since said any Web3 game claiming to be the official
+  Flappy Bird is a scam.</p>
+  <h3>Is the original coming back?</h3>
+  <p>The original as Nguyen shipped it has been gone since February 2014, and nothing
+  he has said suggests a return. The name is back under different owners; the game he
+  made is not.</p>
+  <h3>What is Piou Piou vs. Cactus?</h3>
+  <p>A 2009 game widely regarded as the original's inspiration. The new trademark
+  owners acquired its rights and engaged its developer, a point they cite for
+  legitimacy.</p>
+</section>
+
+<hr class="rule">
+
+<aside style="margin:40px 0">
+  <p>This page is part of <a href="/">beakdown.fun</a>, home of an original browser
+  arcade game. If you arrived wanting to play something right now,
+  <a href="/flappy-bird-online">the playable page on this site</a> is honest about
+  what it is and what it is not.</p>
+</aside>
+</main>
+
+<footer class="site">
+  <span>Beakdown lives at <a href="/">beakdown.fun</a></span>
+  <span>made by <a href="https://nathanhaslewood.com.au" rel="noopener">Nathan Haslewood</a></span>
+</footer>
+
+</div>
+</body>
+</html>

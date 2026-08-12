@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#150e1c">
+<title>Flappy Bird 2: the sequel that never happened</title>
+<meta name="description" content="There is no Flappy Bird 2. The creator walked away in 2014; no sequel followed. The short story, plus a different bird game with real progression to play free.">
+<link rel="canonical" href="https://beakdown.fun/flappy-bird-2">
+<link rel="icon" type="image/png" href="/icon.png">
+<link rel="apple-touch-icon" href="/icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Flappy Bird 2: the sequel that never happened">
+<meta property="og:description" content="No sequel exists. Here's why, and a different bird game with the progression the original never had.">
+<meta property="og:url" content="https://beakdown.fun/flappy-bird-2">
+<meta property="og:image" content="https://beakdown.fun/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Flappy Bird 2: the sequel that never happened">
+<meta name="twitter:description" content="No sequel exists. Here's why, and a different bird game with the progression the original never had.">
+<meta name="twitter:image" content="https://beakdown.fun/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"Organization","@id":"https://beakdown.fun/#org","name":"Beakdown","url":"https://beakdown.fun/","sameAs":["https://nathanhaslewood.com.au"]},
+{"@type":"VideoGame","@id":"https://beakdown.fun/#game","name":"Beakdown","url":"https://beakdown.fun/","description":"A free browser arcade game where you fly by flapping and win every collision by being the higher bird.","genre":"Arcade","playMode":"SinglePlayer","gamePlatform":"Web browser","applicationCategory":"Game","operatingSystem":"Any","isAccessibleForFree":true,"author":{"@type":"Person","name":"Nathan Haslewood","url":"https://nathanhaslewood.com.au"},"publisher":{"@id":"https://beakdown.fun/#org"}},
+{"@type":"WebPage","@id":"https://beakdown.fun/flappy-bird-2","url":"https://beakdown.fun/flappy-bird-2","name":"Flappy Bird 2: the sequel that never happened","description":"There is no Flappy Bird 2. The creator walked away in 2014; no sequel followed. The short story, plus a different bird game with real progression to play free.","about":{"@id":"https://beakdown.fun/#game"},"mentions":[{"@type":"VideoGame","name":"Flappy Bird"}],"publisher":{"@id":"https://beakdown.fun/#org"},"inLanguage":"en-AU"}
+]}
+</script>
+<style>
+:root{--ground:#150e1c;--ink:#f2ece0;--gold:#ffc046;--dawn1:#ffd9a0;--dawn2:#e8804f;
+--rock:#2a1d33;--rocktop:#5a4066;--lip:#c98a6a;--dim:rgba(242,236,224,.62)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{color-scheme:dark}
+body{background:var(--ground);color:var(--ink);font:16px/1.65 system-ui,sans-serif;
+-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+a{color:var(--gold);text-decoration:underline;text-decoration-color:rgba(255,192,70,.45);
+text-underline-offset:2px}
+a:hover{text-decoration-color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+header.site{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+padding:22px 0 8px;flex-wrap:wrap}
+.mark{font-weight:600;font-size:17px;letter-spacing:.2em;text-decoration:none;
+background:linear-gradient(180deg,var(--dawn1),var(--dawn2));
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{font-style:italic;color:var(--gold);opacity:.85;font-size:13px}
+.hero{padding:30px 0 4px;background:
+radial-gradient(1px 1px at 16% 24%,rgba(242,236,224,.55),transparent 65%),
+radial-gradient(1px 1px at 78% 14%,rgba(242,236,224,.4),transparent 65%),
+radial-gradient(1.6px 1.6px at 60% 62%,rgba(255,192,70,.42),transparent 65%),
+radial-gradient(1px 1px at 34% 82%,rgba(242,236,224,.3),transparent 65%)}
+.eyebrow{font-size:11px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;
+font-variant-numeric:tabular-nums;margin-bottom:14px}
+h1{font-size:clamp(26px,4.6vw,38px);line-height:1.16;font-weight:650;letter-spacing:.01em}
+.lede{margin:18px 0 26px;font-size:18px;line-height:1.6;max-width:62ch}
+.perch{margin:6px 0 10px;background:linear-gradient(180deg,var(--rock),#20162b);
+border-top:3px solid var(--lip);border-radius:5px 5px 14px 14px;padding:10px 10px 16px;
+box-shadow:0 24px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(90,64,102,.6)}
+.frame{display:block;width:100%;height:auto;aspect-ratio:800/520;border:0;border-radius:8px;
+background:var(--ground)}
+@media(max-width:700px){.frame{aspect-ratio:auto;height:min(76vh,640px);height:min(76svh,640px)}}
+.controls{font-size:13px;color:var(--dim);margin:10px 2px 0;line-height:1.6}
+.controls b{color:var(--gold);font-weight:600}
+section{margin:40px 0}
+h2{font-size:21px;font-weight:650;margin-bottom:12px}
+h3{font-size:16.5px;font-weight:650;margin:20px 0 6px}
+p{max-width:66ch;margin:0 0 14px}
+section p:last-child{margin-bottom:0}
+.faq h3{margin:22px 0 6px}
+.faq p{max-width:70ch}
+.rule{border:0;border-top:1px dashed rgba(255,192,70,.35);margin:44px 0 4px}
+footer.site{border-top:1px solid rgba(90,64,102,.45);margin-top:46px;padding:20px 0 46px;
+font-size:12px;letter-spacing:.06em;color:var(--dim);display:flex;gap:10px 22px;
+flex-wrap:wrap;justify-content:space-between}
+footer.site a{color:inherit;text-decoration-color:rgba(242,236,224,.3)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is there an official Flappy Bird 2?", "acceptedAnswer": {"@type": "Answer", "text": "No. Dong Nguyen never made a sequel, and no official one has ever existed. Everything carrying the name is a clone, a fan project or the contested 2024 remake of the original."}}, {"@type": "Question", "name": "Did the creator ever plan a sequel?", "acceptedAnswer": {"@type": "Answer", "text": "Nothing he has said publicly points to one. He removed the original in February 2014 over its addictiveness and has kept his distance from the name since."}}, {"@type": "Question", "name": "What is Flappy Birds Family?", "acceptedAnswer": {"@type": "Answer", "text": "An official variant Nguyen released for Amazon's Fire TV in August 2014. It is the closest thing to a follow-up he ever shipped, and it stayed on that one platform."}}, {"@type": "Question", "name": "Is the 2024 release a sequel?", "acceptedAnswer": {"@type": "Answer", "text": "No, it is a remake of the original under new owners, who obtained the trademark after it was declared abandoned. The creator has publicly said he has no involvement and sold nothing."}}, {"@type": "Question", "name": "What are the flappybird2 websites?", "acceptedAnswer": {"@type": "Answer", "text": "Independent browser clones using the name, unrelated to the original developer. They demonstrate demand for a sequel more than they satisfy it."}}, {"@type": "Question", "name": "Why did no sequel ever happen?", "acceptedAnswer": {"@type": "Answer", "text": "Because the original's creator walked away at the game's peak and never came back to the name. By the time others picked the name up in 2024, he was publicly opposed rather than involved."}}, {"@type": "Question", "name": "Does Beakdown play like the original?", "acceptedAnswer": {"@type": "Answer", "text": "No, and it does not try to. You still fly by flapping, but there are enemies instead of pipes, and every collision is won by whichever bird is higher."}}, {"@type": "Question", "name": "What does Beakdown have that the original did not?", "acceptedAnswer": {"@type": "Answer", "text": "Progression. Waves that escalate to ten enemies, fast hunters that grow to seven in ten spawns, eggs that hatch on a shrinking timer, three power-ups and 24 rotating arenas. The original was one corridor at one difficulty forever."}}, {"@type": "Question", "name": "Is the 2024 remake free?", "acceptedAnswer": {"@type": "Answer", "text": "The web and Telegram versions are free to play, and the mobile release is a free app. Its own site is flappybird.org."}}, {"@type": "Question", "name": "What is the closest thing to a real sequel?", "acceptedAnswer": {"@type": "Answer", "text": "There is no good answer, which is the honest one. The remake continues the brand, a thousand clones continue the loop, and Beakdown continues the idea in a different direction. Pick by what you actually want more of."}}, {"@type": "Question", "name": "Will Beakdown get a two-player mode?", "acceptedAnswer": {"@type": "Answer", "text": "Not yet; it is single-player today. If that changes, the site will say so."}}]}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+<header class="site">
+  <a class="mark" href="/">BEAKDOWN</a>
+  <span class="tag">Settle the pecking order.</span>
+</header>
+
+<main>
+<div class="hero">
+  <p class="eyebrow">The sequel question, answered</p>
+  <h1>Flappy Bird 2 doesn't exist. Here's what happened instead</h1>
+  <p class="lede">There has never been a sequel. Dong Nguyen shipped the original in 2013,
+  deleted it at its peak in February 2014, and never made a follow-up. Nearly everything
+  wearing the name today is a clone with a 2 stapled on, plus one contested reboot of the
+  original that its creator wants nothing to do with. What this page offers instead is
+  honest: Beakdown, a different bird game that is not Flappy Bird and does not pretend
+  to be, playable below, built around the one thing the original never had.</p>
+</div>
+
+<div class="perch">
+  <iframe id="game" class="frame" src="/" width="800" height="520" loading="eager"
+    title="Beakdown, a playable arcade game. Hold the left or right side of the screen to fly that way. On a keyboard, use the arrow keys or A and D to steer and space to climb."></iframe>
+</div>
+<p class="controls"><b>Touch:</b> hold the left or right half of the screen to fly that way.
+<b>Keyboard:</b> left and right arrows or A and D to steer, space to climb. Any key starts.
+Every clash goes to the higher bird.</p>
+
+<hr class="rule">
+
+<section>
+  <h2>The case, made specifically</h2>
+  <p>Beakdown is not a sequel to anything, and it does not play like the game you
+  searched for. It is its own arcade game: you fly by flapping, and every collision
+  goes to whichever bird is higher, so fights are decided by position rather than
+  reflex alone. The claim is narrower than sequel: the original had no progression at
+  all. One bird, one corridor, one difficulty, forever. The number went up until you
+  clipped a pipe.</p>
+  <p>Beakdown escalates instead. Waves grow from a handful of enemies to ten. The fast,
+  aggressive birds rise from a third of spawns to seven in ten. Eggs hatch faster the
+  deeper you go, and the ground changes underneath you: twelve arena layouts, each also
+  played mirrored, so nothing repeats until wave 72. A star briefly makes you the hunter
+  instead of the hunted, hearts and a guaranteed extra life every five waves keep long
+  runs alive, and a mushroom that expires forces you across the map to keep your edge.</p>
+  <p>Whether that is what a sequel should have been is your call. It is at least an
+  answer, not an echo. Every rule and number, laid out plainly, is in
+  <a href="/about-beakdown">the complete Beakdown reference</a>.</p>
+</section>
+
+<section>
+  <h2>What actually wears the name</h2>
+  <p>Search for a sequel and you get thin clone sites, a Wikipedia entry and Scratch
+  projects. None is a sequel. The nearest thing to a continuation is the 2024 reboot of
+  the original, launched by new owners after a trademark proceeding and publicly
+  disavowed by Nguyen. The full account is on
+  <a href="/what-happened-to-flappy-bird">the story page</a>.</p>
+  <p>And if what you wanted was simply a bird game running right now on a locked-down
+  network, <a href="/flappy-bird-online">the honest unblocked page</a> covers that,
+  including <a href="/flappy-bird-online#other-games">a fair guide to the
+  alternatives</a>.</p>
+</section>
+
+<section>
+  <h2>If a sequel is what you are really after</h2>
+  <p>Different people mean different things by a sequel, so here is the honest routing.
+  If you mean the same loop again, the 2024 remake at
+  <a href="https://flappybird.org/" rel="noopener">flappybird.org</a> is the direct
+  answer, whatever you make of its ownership story. If you mean the same kind of
+  difficulty with more craft, Geometry Dash is the one-button game that most rewards
+  practice. If you mean the idea taken somewhere new, that is the claim Beakdown makes
+  above, and the game is right there to judge. What does not exist, anywhere, is a
+  second Flappy Bird by the person who made the first.</p>
+</section>
+
+<section class="faq" id="faq">
+  <h2>Questions people actually ask</h2>
+  <h3>Is there an official Flappy Bird 2?</h3>
+  <p>No. Dong Nguyen never made a sequel, and no official one has ever existed.
+  Everything carrying the name is a clone, a fan project or the contested 2024 remake
+  of the original.</p>
+  <h3>Did the creator ever plan a sequel?</h3>
+  <p>Nothing he has said publicly points to one. He removed the original in February
+  2014 over its addictiveness and has kept his distance from the name since.</p>
+  <h3>What is Flappy Birds Family?</h3>
+  <p>An official variant Nguyen released for Amazon's Fire TV in August 2014. It is the
+  closest thing to a follow-up he ever shipped, and it stayed on that one platform.</p>
+  <h3>Is the 2024 release a sequel?</h3>
+  <p>No, it is a remake of the original under new owners, who obtained the trademark
+  after it was declared abandoned. The creator has publicly said he has no involvement
+  and sold nothing.</p>
+  <h3>What are the flappybird2 websites?</h3>
+  <p>Independent browser clones using the name, unrelated to the original developer.
+  They demonstrate demand for a sequel more than they satisfy it.</p>
+  <h3>Why did no sequel ever happen?</h3>
+  <p>Because the original's creator walked away at the game's peak and never came back
+  to the name. By the time others picked the name up in 2024, he was publicly opposed
+  rather than involved.</p>
+  <h3>Does Beakdown play like the original?</h3>
+  <p>No, and it does not try to. You still fly by flapping, but there are enemies
+  instead of pipes, and every collision is won by whichever bird is higher.</p>
+  <h3>What does Beakdown have that the original did not?</h3>
+  <p>Progression. Waves that escalate to ten enemies, fast hunters that grow to seven
+  in ten spawns, eggs that hatch on a shrinking timer, three power-ups and 24 rotating
+  arenas. The original was one corridor at one difficulty forever.</p>
+  <h3>Is the 2024 remake free?</h3>
+  <p>The web and Telegram versions are free to play, and the mobile release is a free
+  app. Its own site is <a href="https://flappybird.org/" rel="noopener">flappybird.org</a>.</p>
+  <h3>What is the closest thing to a real sequel?</h3>
+  <p>There is no good answer, which is the honest one. The remake continues the brand,
+  a thousand clones continue the loop, and Beakdown continues the idea in a different
+  direction. Pick by what you actually want more of.</p>
+  <h3>Will Beakdown get a two-player mode?</h3>
+  <p>Not yet; it is single-player today. If that changes, the site will say so.</p>
+</section>
+</main>
+
+<footer class="site">
+  <span>Beakdown lives at <a href="/">beakdown.fun</a></span>
+  <span>made by <a href="https://nathanhaslewood.com.au" rel="noopener">Nathan Haslewood</a></span>
+</footer>
+
+</div>
+<script>
+(function(){
+  var f=document.getElementById('game');
+  if(!f)return;
+  var GK={' ':1,'ArrowLeft':1,'ArrowRight':1,'a':1,'d':1,'A':1,'D':1};
+  function fw(){try{return f.contentWindow;}catch(e){return null;}}
+  function focusGame(){var w=fw();if(w){try{w.focus();}catch(e){}}}
+  function nearViewport(){
+    var r=f.getBoundingClientRect();
+    return r.bottom>60&&r.top<window.innerHeight-60;
+  }
+  function relay(type,e){
+    if(!GK[e.key]||e.metaKey||e.ctrlKey||e.altKey)return;
+    var t=e.target;
+    if(t&&t!==document.body&&t!==document.documentElement)return;
+    if(!nearViewport())return;
+    var w=fw();
+    if(!w||!w.document)return;
+    if(w.document.hasFocus&&w.document.hasFocus())return;
+    e.preventDefault();
+    focusGame();
+    try{w.dispatchEvent(new w.KeyboardEvent(type,{key:e.key,repeat:!!e.repeat}));}
+    catch(err){
+      try{w.dispatchEvent(new KeyboardEvent(type,{key:e.key,repeat:!!e.repeat}));}catch(e2){}
+    }
+  }
+  window.addEventListener('keydown',function(e){relay('keydown',e);});
+  window.addEventListener('keyup',function(e){relay('keyup',e);});
+})();
+</script>
+</body>
+</html>

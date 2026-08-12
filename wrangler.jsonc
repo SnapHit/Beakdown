@@ -1,0 +1,23 @@
+{
+  "name": "beakdown",
+  "compatibility_date": "2026-07-26",
+  "assets": {
+    "directory": "./public",
+
+    // Serves /about-beakdown from about-beakdown.html and redirects the .html and
+    // trailing-slash forms onto it. This is the current default, pinned explicitly
+    // because every internal link, every canonical tag and the sitemap use the
+    // extension-less form. If the default ever changed, every page would 404 at once.
+    "html_handling": "auto-trailing-slash",
+
+    // Unmatched paths serve public/404.html instead of a bodyless 404.
+    "not_found_handling": "404-page"
+  },
+
+  // Custom domains. These must stay in the config: deploying without them can detach
+  // the hostnames from the Worker.
+  "routes": [
+    { "pattern": "beakdown.fun", "custom_domain": true },
+    { "pattern": "www.beakdown.fun", "custom_domain": true }
+  ]
+}

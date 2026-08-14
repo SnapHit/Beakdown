@@ -1,0 +1,281 @@
+/* The SnapHit arcade cabinet, lifted from the studio homepage so the machine
+   looks the same here as it does on snap-hit.online.
+
+   Two things were changed on the way across, both forced by the host page:
+
+   1. Every custom property carries an --arc- prefix. These content pages already
+      define --ink on :root for their own body text, and an unprefixed copy of the
+      studio palette would repaint every paragraph on the page. The colour values
+      themselves are untouched.
+   2. The narrow-screen phone width subtracts 40px rather than 26px, because .wrap
+      here pads 20px a side where the studio shelf pads 13px. The cabinet still
+      fills the content column exactly.
+
+   Behaviour lives in arcade.js. Nothing here loads from another domain. */
+
+:root{
+  --arc-amber:#ff9424; --arc-amber-lit:#ffd9a2;
+  --arc-ink:#cfe2f5; --arc-ink-dim:#7e93ab;
+  /* The phone drives everything. Narrow shoulders, so the screen is the
+     object and the cabinet is the frame around it, not the other way round.
+     On narrow screens the width decides; on wide ones the height does. */
+  --arc-cabx:1.44;                    /* cabinet width, in phone widths */
+  --arc-apx:1.18;                     /* aperture width, likewise */
+  --arc-pw:min(calc((100vw - 40px) / 1.44), 300px);
+  --arc-ph:calc(var(--arc-pw) / 0.4615);
+}
+@media (min-width:720px){
+  :root{ --arc-cabx:1.62; --arc-apx:1.30; --arc-pw:min(26.5vh, 330px); }
+}
+@media (min-width:720px) and (min-height:1000px){
+  :root{ --arc-pw:min(26vh, 380px); }
+}
+
+/* The mount. One cabinet, centred in the content column. */
+.arcade{display:flex;flex-direction:column;align-items:center;margin:6px 0 10px}
+.arcade .nojs{margin:0;font-size:14px}
+
+/* The wordmark is drawn, not set. The letter outlines have their
+   overlapping pieces merged, so a stroke can only trace the silhouette:
+   no seam under a crossbar, no box at a junction. It also removes every
+   font fallback, synthetic bold and text-stroke support question. */
+.wm{display:block;height:auto;color:var(--arc-amber);overflow:visible}
+.wm use{stroke-width:62}
+.wm-marq{width:54%;margin:0 auto;color:var(--arc-amber);
+  filter:drop-shadow(0 0 4px rgba(255,148,36,.85)) drop-shadow(0 0 15px rgba(255,148,36,.42))}
+.wm-marq use{stroke-width:62}
+
+/* ---------- cabinet ---------- */
+.cab{width:calc(var(--arc-pw) * var(--arc-cabx));max-width:100%}
+.cab-body{
+  position:relative;padding:0 0 calc(var(--arc-ph) * .04);
+  border-radius:calc(var(--arc-pw) * .1) calc(var(--arc-pw) * .1) calc(var(--arc-pw) * .03) calc(var(--arc-pw) * .03);
+  background:linear-gradient(180deg,#2a5b8c 0%,#1d4370 38%,#122c4d 74%,#0b1e38 100%);
+  box-shadow:
+    inset 0 0 0 1.5px rgba(55,208,245,.55),
+    inset 0 1px 0 rgba(180,232,255,.35),
+    0 0 0 2px rgba(255,148,36,.85),
+    0 0 34px -4px rgba(255,148,36,.45),
+    0 0 78px -18px rgba(55,208,245,.6),
+    0 40px 80px -30px rgba(0,0,0,.95);
+  overflow:hidden;
+}
+/* side art: cabinet stripes, the way a real machine is decalled */
+.cab-body::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(90deg,
+      transparent 0 3.5%, rgba(255,148,36,.85) 3.5% 5.4%,
+      transparent 5.4% 7%, rgba(55,208,245,.7) 7% 8.4%,
+      transparent 8.4% 91.6%, rgba(55,208,245,.7) 91.6% 93%,
+      transparent 93% 94.6%, rgba(255,148,36,.85) 94.6% 96.5%,
+      transparent 96.5% 100%);
+}
+/* Both front edges catch the light, and a broad gloss rakes across the
+   left face. This is what stops it reading as a flat rectangle. */
+.cab-body::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(90deg,
+      rgba(255,255,255,.34) 0 .8%,
+      rgba(214,240,255,.13) .8% 2.4%,
+      rgba(255,255,255,0) 2.4% 96.8%,
+      rgba(214,240,255,.10) 96.8% 99.1%,
+      rgba(255,255,255,.26) 99.1% 100%),
+    linear-gradient(104deg,
+      rgba(198,238,255,.19) 0 6%,
+      rgba(198,238,255,.07) 13%,
+      rgba(198,238,255,0) 30%,
+      rgba(198,238,255,0) 84%,
+      rgba(198,238,255,.05) 100%),
+    linear-gradient(180deg, rgba(255,255,255,.10) 0 1.5%, transparent 6%);
+}
+.marquee{
+  position:relative;margin:calc(var(--arc-pw) * .07) calc(var(--arc-pw) * .07) 0;
+  padding:calc(var(--arc-pw) * .048) 0;border-radius:calc(var(--arc-pw) * .045);
+  text-align:center;
+  background:linear-gradient(180deg,#1b1006 0%,#2a1708 55%,#150c04 100%);
+  box-shadow:inset 0 0 0 1px rgba(255,148,36,.5),0 0 26px -6px rgba(255,148,36,.55);
+  padding-left:calc(var(--arc-pw) * .04);padding-right:calc(var(--arc-pw) * .04);
+}
+.marquee::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(120% 180% at 50% 50%,rgba(255,190,110,.55),rgba(255,148,36,.12) 70%,transparent);
+  mix-blend-mode:screen;will-change:opacity;
+  animation:mq 4.4s ease-in-out infinite;
+}
+@keyframes mq{
+  0%{opacity:.10} 38%{opacity:.62} 44%{opacity:0} 47%{opacity:.85}
+  51%{opacity:.06} 55%{opacity:.7} 72%{opacity:.34} 100%{opacity:.10}
+}
+@media (prefers-reduced-motion:reduce){
+  .marquee::after{animation:none;opacity:.35}
+}
+.aperture{
+  position:relative;margin:calc(var(--arc-pw) * .07) auto 0;width:calc(var(--arc-pw) * var(--arc-apx));
+  max-width:calc(100% - var(--arc-pw) * .14);
+  padding:calc(var(--arc-pw) * .09) 0;border-radius:calc(var(--arc-pw) * .05);
+  background:#01040a;
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,.95),
+    inset 0 12px 34px rgba(0,0,0,.9),
+    0 0 0 1.5px rgba(255,148,36,.7),
+    0 0 20px -4px rgba(255,148,36,.4);
+  display:flex;justify-content:center;
+}
+/* A brushed metal rail, a glass front, an island, side keys. The point of
+   the whole thing rests on this reading as a phone at a glance. */
+.phone{
+  position:relative;width:var(--arc-pw);height:var(--arc-ph);
+  border-radius:calc(var(--arc-pw) * .135);
+  padding:calc(var(--arc-pw) * .022);
+  background:linear-gradient(148deg,#8ea2b8 0%,#46525f 16%,#222a34 40%,
+                             #1a212a 62%,#3d4854 84%,#7d8fa3 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.22),
+    0 0 0 1px rgba(4,8,14,.9),
+    0 0 40px -8px rgba(55,208,245,.5),
+    0 14px 30px -12px rgba(0,0,0,.9);
+}
+/* side keys, standing slightly proud of the rail */
+.key{
+  position:absolute;z-index:2;border-radius:calc(var(--arc-pw) * .012);
+  background:linear-gradient(90deg,#7f92a6,#39424e 55%,#232a33);
+  box-shadow:0 0 0 .5px rgba(0,0,0,.55);
+}
+.key.vol{left:calc(var(--arc-pw) * -.014);width:calc(var(--arc-pw) * .017)}
+.key.v1{top:22%;height:7.5%}
+.key.v2{top:31.5%;height:7.5%}
+.key.pwr{right:calc(var(--arc-pw) * -.014);width:calc(var(--arc-pw) * .017);top:26%;height:11%;
+  background:linear-gradient(270deg,#7f92a6,#39424e 55%,#232a33)}
+.screen{
+  position:relative;width:100%;height:100%;overflow:hidden;
+  border-radius:calc(var(--arc-pw) * .118);background:#000;
+}
+.screen iframe{display:block;width:100%;height:100%;border:0}
+/* the island sits over the display, the way it does on the real thing */
+.island{
+  position:absolute;z-index:4;top:calc(var(--arc-pw) * .028);left:50%;
+  transform:translateX(-50%);
+  width:calc(var(--arc-pw) * .30);height:calc(var(--arc-pw) * .082);
+  border-radius:999px;background:#000;
+  box-shadow:0 0 0 .5px rgba(120,140,165,.35);
+  display:flex;align-items:center;justify-content:flex-end;
+  padding-right:calc(var(--arc-pw) * .022);pointer-events:none;
+}
+.lens{
+  width:calc(var(--arc-pw) * .036);height:calc(var(--arc-pw) * .036);border-radius:50%;
+  background:radial-gradient(circle at 32% 28%,#3c5f7d 0%,#12202e 46%,#05090e 100%);
+  box-shadow:0 0 0 .5px rgba(150,180,210,.35),inset 0 0 2px rgba(120,200,255,.6);
+}
+/* glass: a light rake across the front, and the home indicator */
+.glass{
+  position:absolute;inset:0;z-index:3;pointer-events:none;
+  border-radius:calc(var(--arc-pw) * .118);
+  background:linear-gradient(118deg,
+    rgba(255,255,255,.11) 0%, rgba(255,255,255,.045) 13%,
+    rgba(255,255,255,0) 30%, rgba(255,255,255,0) 78%,
+    rgba(180,220,255,.05) 96%, rgba(180,220,255,.09) 100%);
+}
+.bar{
+  position:absolute;z-index:4;left:50%;transform:translateX(-50%);
+  bottom:calc(var(--arc-pw) * .030);width:34%;height:calc(var(--arc-pw) * .016);
+  border-radius:999px;background:rgba(255,255,255,.42);pointer-events:none;
+}
+
+.attract{
+  position:absolute;inset:0;width:100%;height:100%;border:0;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:calc(var(--arc-pw) * .05);padding:8%;
+  background:
+    radial-gradient(85% 55% at 50% 74%, rgba(255,148,36,.20), transparent 70%),
+    linear-gradient(180deg,#05070f 0%,#0a1020 55%,#07050f 100%);
+  color:var(--arc-ink);font:inherit;text-align:center;
+}
+.attract .title{
+  font:900 calc(var(--arc-pw) * .155)/1 "Arial Black",Impact,system-ui,sans-serif;
+  letter-spacing:.02em;color:#fff;text-shadow:0 0 18px rgba(255,148,36,.75);
+}
+.attract .play{
+  width:calc(var(--arc-pw) * .28);height:calc(var(--arc-pw) * .28);border-radius:50%;
+  display:grid;place-items:center;
+  background:rgba(255,148,36,.14);box-shadow:0 0 0 1px rgba(255,148,36,.65),0 0 28px -6px rgba(255,148,36,.8);
+  transition:transform .18s ease, background .18s ease;
+}
+.attract .play svg{width:38%;height:38%;fill:var(--arc-amber-lit);margin-left:8%}
+.attract:hover .play,.attract:focus-visible .play{transform:scale(1.09);background:rgba(255,148,36,.24)}
+.attract .hint{font:800 calc(var(--arc-pw) * .045)/1.5 system-ui,sans-serif;letter-spacing:.2em;color:var(--arc-ink-dim)}
+
+/* Ten sliders at 157px wide is not a game, it is a diagram. Tap to expand
+   styles the phone in place rather than moving it, so the iframe is never
+   reloaded and the run survives. The Fullscreen API is skipped deliberately:
+   iOS Safari will not honour it on an iframe. */
+.grow{
+  position:absolute;top:calc(var(--arc-pw) * .075);right:calc(var(--arc-pw) * .075);
+  z-index:4;width:calc(var(--arc-pw) * .17);height:calc(var(--arc-pw) * .17);
+  display:none;place-items:center;border:0;border-radius:calc(var(--arc-pw) * .05);
+  background:rgba(6,13,24,.82);
+  box-shadow:inset 0 0 0 1px rgba(255,148,36,.55);cursor:pointer;
+}
+.phone.live .grow{display:grid}
+.grow svg{width:52%;height:52%;fill:none;stroke:var(--arc-amber-lit);stroke-width:2.4;
+  stroke-linecap:round;stroke-linejoin:round}
+.grow:hover,.grow:focus-visible{background:rgba(255,148,36,.22)}
+
+body.zoomed{overflow:hidden}
+body.zoomed .phone.big{
+  position:fixed;inset:0;z-index:200;width:100%;height:100%;
+  padding:0;border-radius:0;box-shadow:none;background:#000;
+}
+body.zoomed .phone.big .island,
+body.zoomed .phone.big .key,
+body.zoomed .phone.big .glass,
+body.zoomed .phone.big .bar,
+body.zoomed .phone.big .grow{display:none}
+body.zoomed .phone.big .screen{border-radius:0}
+.shrink{
+  display:none;position:fixed;z-index:201;
+  top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));
+  width:40px;height:40px;place-items:center;border:0;border-radius:12px;cursor:pointer;
+  background:rgba(6,13,24,.86);
+  box-shadow:inset 0 0 0 1px rgba(255,148,36,.55);
+}
+body.zoomed .shrink{display:grid}
+.shrink svg{width:18px;height:18px;fill:none;stroke:var(--arc-amber-lit);stroke-width:2.6;
+  stroke-linecap:round}
+
+/* The control panel: a printed overlay with real parts standing on it. */
+.deck{
+  position:relative;margin:calc(var(--arc-pw) * .075) calc(var(--arc-pw) * .035) 0;
+  padding:calc(var(--arc-pw) * .022) calc(var(--arc-pw) * .028);
+  border-radius:calc(var(--arc-pw) * .05);
+  background:linear-gradient(180deg,#101f31 0%,#0a1725 60%,#060e18 100%);
+  box-shadow:inset 0 3px 9px rgba(0,0,0,.7),0 2px 0 rgba(0,0,0,.5);
+}
+.panel{display:block;width:100%;height:auto}
+
+/* coin door, because nothing says arcade faster */
+.coin{
+  position:relative;margin:calc(var(--arc-pw) * .05) calc(var(--arc-pw) * .17) 0;
+  height:calc(var(--arc-pw) * .115);border-radius:calc(var(--arc-pw) * .02);
+  background:linear-gradient(180deg,#0a1524 0%,#060e19 100%);
+  box-shadow:inset 0 0 0 1px rgba(140,170,200,.35),inset 0 3px 7px rgba(0,0,0,.8);
+  display:flex;align-items:center;justify-content:center;gap:calc(var(--arc-pw) * .05);
+}
+.slot{
+  width:calc(var(--arc-pw) * .012);height:calc(var(--arc-pw) * .058);border-radius:2px;
+  background:#000;box-shadow:0 0 0 1px rgba(190,215,240,.5),0 0 6px -1px rgba(55,208,245,.5);
+}
+.ret{
+  width:calc(var(--arc-pw) * .1);height:calc(var(--arc-pw) * .046);
+  border-radius:calc(var(--arc-pw) * .01);background:linear-gradient(180deg,#1b2b3d,#0b1420);
+  box-shadow:inset 0 0 0 1px rgba(150,180,210,.4);
+}
+
+.cab .visit{
+  display:block;margin:18px auto 0;width:max-content;
+  font:800 11px/1 system-ui,sans-serif;letter-spacing:.18em;
+  color:var(--arc-amber);text-decoration:none;border-bottom:1px solid rgba(255,148,36,.45);
+  padding-bottom:5px;
+}
+.cab .visit:hover{color:var(--arc-amber-lit);border-bottom-color:var(--arc-amber-lit)}

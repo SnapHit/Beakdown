@@ -9,6 +9,10 @@
 <link rel="canonical" href="https://beakdown.fun/what-happened-to-flappy-bird">
 <link rel="icon" type="image/png" href="/icon.png">
 <link rel="apple-touch-icon" href="/icon.png">
+<!-- The arcade cabinet. Relative rather than root-relative on purpose: the link
+     checker in scripts/verify.mjs treats every root-relative href as a page that
+     must resolve to a route, and every page here sits at the root anyway. -->
+<link rel="stylesheet" href="arcade.css">
 <meta property="og:type" content="article">
 <meta property="og:title" content="What happened to Flappy Bird? The whole story">
 <meta property="og:description" content="Made by one developer, deleted at its peak, revived a decade later by owners the creator disavowed. The full story, with sources.">
@@ -84,7 +88,14 @@ footer.site a{color:inherit;text-decoration-color:rgba(242,236,224,.3)}
   <p class="lede">The short answer: its creator deleted it on purpose, at its peak, in
   February 2014, and it stayed gone for a decade. Then the trademark changed hands in a
   proceeding he did not contest, and in 2024 a new company relaunched the name in a form
-  he publicly refuses to endorse. The long answer is stranger, and worth the few minutes.</p>
+  he publicly refuses to endorse.</p>
+  <p>The long answer is stranger, and it is below. The machine is Beakdown, the game this
+  site makes: not Flappy Bird, not pretending to be, and just something to fly while you
+  read.</p>
+</div>
+
+<div class="arcade" id="arcade">
+  <noscript><p class="nojs"><a href="/">Play Beakdown</a></p></noscript>
 </div>
 
 <hr class="rule">
@@ -230,5 +241,7 @@ footer.site a{color:inherit;text-decoration-color:rgba(242,236,224,.3)}
 </footer>
 
 </div>
+<!-- Cabinet behaviour, including the keyboard relay the play pages used to carry. -->
+<script src="arcade.js" defer></script>
 </body>
 </html>

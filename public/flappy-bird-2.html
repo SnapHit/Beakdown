@@ -9,6 +9,10 @@
 <link rel="canonical" href="https://beakdown.fun/flappy-bird-2">
 <link rel="icon" type="image/png" href="/icon.png">
 <link rel="apple-touch-icon" href="/icon.png">
+<!-- The arcade cabinet. Relative rather than root-relative on purpose: the link
+     checker in scripts/verify.mjs treats every root-relative href as a page that
+     must resolve to a route, and every page here sits at the root anyway. -->
+<link rel="stylesheet" href="arcade.css">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Flappy Bird 2: the sequel that never happened">
 <meta property="og:description" content="No sequel exists. Here's why, and a different bird game with the progression the original never had.">
@@ -90,21 +94,19 @@ footer.site a{color:inherit;text-decoration-color:rgba(242,236,224,.3)}
 <div class="hero">
   <p class="eyebrow">The sequel question, answered</p>
   <h1>Flappy Bird 2 doesn't exist. Here's what happened instead</h1>
-  <p class="lede">There has never been a sequel. Dong Nguyen shipped the original in 2013,
-  deleted it at its peak in February 2014, and never made a follow-up. Nearly everything
-  wearing the name today is a clone with a 2 stapled on, plus one contested reboot of the
-  original that its creator wants nothing to do with. What this page offers instead is
-  honest: Beakdown, a different bird game that is not Flappy Bird and does not pretend
-  to be, playable below, built around the one thing the original never had.</p>
+  <p class="lede">There has never been a sequel, and this page will not pretend otherwise.
+  What it offers instead is Beakdown: a different bird game, not Flappy Bird, free in your
+  browser with nothing to install, and playable right here.</p>
 </div>
 
-<div class="perch">
-  <iframe id="game" class="frame" src="/" width="800" height="520" loading="eager"
-    title="Beakdown, a playable arcade game. Hold the left or right side of the screen to fly that way. On a keyboard, use the arrow keys or A and D to steer and space to climb."></iframe>
+<div class="arcade" id="arcade">
+  <noscript><p class="nojs"><a href="/">Play Beakdown</a></p></noscript>
 </div>
+
 <p class="controls"><b>Touch:</b> hold the left or right half of the screen to fly that way.
 <b>Keyboard:</b> left and right arrows or A and D to steer, space to climb. Any key starts.
-Every clash goes to the higher bird.</p>
+Every clash goes to the higher bird. Why no sequel ever came, and what wears the name
+instead, is set out below.</p>
 
 <hr class="rule">
 
@@ -129,8 +131,9 @@ Every clash goes to the higher bird.</p>
 
 <section>
   <h2>What actually wears the name</h2>
-  <p>Search for a sequel and you get thin clone sites, a Wikipedia entry and Scratch
-  projects. None is a sequel. The nearest thing to a continuation is the 2024 reboot of
+  <p>Dong Nguyen shipped the original in 2013, deleted it at its peak in February 2014,
+  and never made a follow-up. Search for a sequel and you get thin clone sites, a
+  Wikipedia entry and Scratch projects. None is a sequel. The nearest thing to a continuation is the 2024 reboot of
   the original, launched by new owners after a trademark proceeding and publicly
   disavowed by Nguyen. The full account is on
   <a href="/what-happened-to-flappy-bird">the story page</a>.</p>
@@ -200,35 +203,7 @@ Every clash goes to the higher bird.</p>
 </footer>
 
 </div>
-<script>
-(function(){
-  var f=document.getElementById('game');
-  if(!f)return;
-  var GK={' ':1,'ArrowLeft':1,'ArrowRight':1,'a':1,'d':1,'A':1,'D':1};
-  function fw(){try{return f.contentWindow;}catch(e){return null;}}
-  function focusGame(){var w=fw();if(w){try{w.focus();}catch(e){}}}
-  function nearViewport(){
-    var r=f.getBoundingClientRect();
-    return r.bottom>60&&r.top<window.innerHeight-60;
-  }
-  function relay(type,e){
-    if(!GK[e.key]||e.metaKey||e.ctrlKey||e.altKey)return;
-    var t=e.target;
-    if(t&&t!==document.body&&t!==document.documentElement)return;
-    if(!nearViewport())return;
-    var w=fw();
-    if(!w||!w.document)return;
-    if(w.document.hasFocus&&w.document.hasFocus())return;
-    e.preventDefault();
-    focusGame();
-    try{w.dispatchEvent(new w.KeyboardEvent(type,{key:e.key,repeat:!!e.repeat}));}
-    catch(err){
-      try{w.dispatchEvent(new KeyboardEvent(type,{key:e.key,repeat:!!e.repeat}));}catch(e2){}
-    }
-  }
-  window.addEventListener('keydown',function(e){relay('keydown',e);});
-  window.addEventListener('keyup',function(e){relay('keyup',e);});
-})();
-</script>
+<!-- Cabinet behaviour, including the keyboard relay that used to live here. -->
+<script src="arcade.js" defer></script>
 </body>
 </html>

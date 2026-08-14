@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#150e1c">
+<title>About Beakdown: the complete reference</title>
+<meta name="description" content="Everything about Beakdown in one place: the height rule, controls, power-ups, arenas, scoring, what it costs and collects, who made it, and who it suits.">
+<link rel="canonical" href="https://beakdown.fun/about-beakdown">
+<link rel="icon" type="image/png" href="/icon.png">
+<link rel="apple-touch-icon" href="/icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="About Beakdown: the complete reference">
+<meta property="og:description" content="The height rule, controls, power-ups, arenas, scoring, cost, data, maker, and who it suits. All of it, in one place.">
+<meta property="og:url" content="https://beakdown.fun/about-beakdown">
+<meta property="og:image" content="https://beakdown.fun/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About Beakdown: the complete reference">
+<meta name="twitter:description" content="The height rule, controls, power-ups, arenas, scoring, cost, data, maker, and who it suits. All of it, in one place.">
+<meta name="twitter:image" content="https://beakdown.fun/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"Organization","@id":"https://beakdown.fun/#org","name":"Beakdown","url":"https://beakdown.fun/","sameAs":["https://nathanhaslewood.com.au"]},
+{"@type":"VideoGame","@id":"https://beakdown.fun/#game","name":"Beakdown","url":"https://beakdown.fun/","description":"A free single-player browser arcade game in which you fly a bird by flapping and destroy enemies by colliding with them from above, because the higher bird wins.","genre":"Arcade","playMode":"SinglePlayer","gamePlatform":"Web browser","applicationCategory":"Game","operatingSystem":"Any","isAccessibleForFree":true,"author":{"@type":"Person","name":"Nathan Haslewood","url":"https://nathanhaslewood.com.au"},"publisher":{"@id":"https://beakdown.fun/#org"}},
+{"@type":"AboutPage","@id":"https://beakdown.fun/about-beakdown","url":"https://beakdown.fun/about-beakdown","name":"About Beakdown: the complete reference","description":"Everything about Beakdown in one place: the height rule, controls, power-ups, arenas, scoring, what it costs and collects, who made it, and who it suits.","about":{"@id":"https://beakdown.fun/#game"},"publisher":{"@id":"https://beakdown.fun/#org"},"inLanguage":"en-AU"}
+]}
+</script>
+<style>
+:root{--ground:#150e1c;--ink:#f2ece0;--gold:#ffc046;--dawn1:#ffd9a0;--dawn2:#e8804f;
+--rock:#2a1d33;--rocktop:#5a4066;--lip:#c98a6a;--dim:rgba(242,236,224,.62)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{color-scheme:dark}
+body{background:var(--ground);color:var(--ink);font:16px/1.65 system-ui,sans-serif;
+-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+a{color:var(--gold);text-decoration:underline;text-decoration-color:rgba(255,192,70,.45);
+text-underline-offset:2px}
+a:hover{text-decoration-color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+header.site{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+padding:22px 0 8px;flex-wrap:wrap}
+.mark{font-weight:600;font-size:17px;letter-spacing:.2em;text-decoration:none;
+background:linear-gradient(180deg,var(--dawn1),var(--dawn2));
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{font-style:italic;color:var(--gold);opacity:.85;font-size:13px}
+.hero{padding:30px 0 4px;background:
+radial-gradient(1px 1px at 16% 24%,rgba(242,236,224,.55),transparent 65%),
+radial-gradient(1px 1px at 78% 14%,rgba(242,236,224,.4),transparent 65%),
+radial-gradient(1.6px 1.6px at 60% 62%,rgba(255,192,70,.42),transparent 65%),
+radial-gradient(1px 1px at 34% 82%,rgba(242,236,224,.3),transparent 65%)}
+.eyebrow{font-size:11px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;
+font-variant-numeric:tabular-nums;margin-bottom:14px}
+h1{font-size:clamp(26px,4.6vw,38px);line-height:1.16;font-weight:650;letter-spacing:.01em}
+.lede{margin:18px 0 26px;font-size:18px;line-height:1.6;max-width:62ch}
+.perch{margin:6px 0 10px;background:linear-gradient(180deg,var(--rock),#20162b);
+border-top:3px solid var(--lip);border-radius:5px 5px 14px 14px;padding:10px 10px 16px;
+box-shadow:0 24px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(90,64,102,.6)}
+.frame{display:block;width:100%;height:auto;aspect-ratio:800/520;border:0;border-radius:8px;
+background:var(--ground)}
+@media(max-width:700px){.frame{aspect-ratio:auto;height:min(76vh,640px);height:min(76svh,640px)}}
+.controls{font-size:13px;color:var(--dim);margin:10px 2px 0;line-height:1.6}
+.controls b{color:var(--gold);font-weight:600}
+section{margin:40px 0}
+h2{font-size:21px;font-weight:650;margin-bottom:12px}
+h3{font-size:16.5px;font-weight:650;margin:20px 0 6px}
+p{max-width:66ch;margin:0 0 14px}
+section p:last-child{margin-bottom:0}
+.faq h3{margin:22px 0 6px}
+.faq p{max-width:70ch}
+.rule{border:0;border-top:1px dashed rgba(255,192,70,.35);margin:44px 0 4px}
+footer.site{border-top:1px solid rgba(90,64,102,.45);margin-top:46px;padding:20px 0 46px;
+font-size:12px;letter-spacing:.06em;color:var(--dim);display:flex;gap:10px 22px;
+flex-wrap:wrap;justify-content:space-between}
+footer.site a{color:inherit;text-decoration-color:rgba(242,236,224,.3)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is Beakdown?", "acceptedAnswer": {"@type": "Answer", "text": "A free single-player browser arcade game in which you fly a bird by flapping and destroy enemies by colliding with them from above, because the higher bird wins. It escalates in waves across 24 rotating arenas with three power-ups."}}, {"@type": "Question", "name": "Is it really free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. No price, no ads, no purchases, no catch."}}, {"@type": "Question", "name": "Does it need an account or sign-up?", "acceptedAnswer": {"@type": "Answer", "text": "No. Open the page and play. There is no login anywhere on the site."}}, {"@type": "Question", "name": "What does it collect or track?", "acceptedAnswer": {"@type": "Answer", "text": "The game stores only your best score, in your own browser. The site uses Cloudflare's cookieless analytics to count visits, and nothing identifies you."}}, {"@type": "Question", "name": "What devices and browsers does it run on?", "acceptedAnswer": {"@type": "Answer", "text": "Any modern browser on a phone, tablet or computer. The arena reshapes itself to the screen, taller on phones and wider on desktops."}}, {"@type": "Question", "name": "How do I start a game?", "acceptedAnswer": {"@type": "Answer", "text": "Open beakdown.fun and tap the screen or press any key. The same input that starts the run is the input that flies the bird."}}, {"@type": "Question", "name": "What is the winning rule?", "acceptedAnswer": {"@type": "Answer", "text": "Be higher than the other bird when you collide. The higher crest wins every clash, and near-level clashes bounce both birds apart harmlessly."}}, {"@type": "Question", "name": "What do the power-ups do?", "acceptedAnswer": {"@type": "Answer", "text": "The star gives about seven seconds of invincibility with 1000 points per kill. The heart adds one life, uncapped. The mushroom makes you larger with a higher crest and absorbs one losing clash, and it expires and moves, so it must be chased."}}, {"@type": "Question", "name": "How many arenas are there?", "acceptedAnswer": {"@type": "Answer", "text": "Twelve layouts, each also played mirrored, for 24 distinct grounds. The arena changes every three waves and nothing repeats until wave 72."}}, {"@type": "Question", "name": "Does the difficulty ever stop rising?", "acceptedAnswer": {"@type": "Answer", "text": "It climbs until wave 32, where enemy count, the share of fast hunters and egg hatch speed all reach their maximums. From there the game holds at peak pressure."}}, {"@type": "Question", "name": "Can I play offline?", "acceptedAnswer": {"@type": "Answer", "text": "Once loaded, the game keeps running without a connection, because the whole game is in the page. Reloading needs the network back, and there is no installable offline version."}}, {"@type": "Question", "name": "Is there sound?", "acceptedAnswer": {"@type": "Answer", "text": "No, the game is deliberately silent for now."}}, {"@type": "Question", "name": "Is there a two-player mode?", "acceptedAnswer": {"@type": "Answer", "text": "Not yet; Beakdown is single-player today. If that changes, the site will say so."}}, {"@type": "Question", "name": "Is Beakdown related to Flappy Bird?", "acceptedAnswer": {"@type": "Answer", "text": "No. It is an original game with its own rules and code, not a clone or remake of anything. This site also tells that game's history because people ask, but the two are different games."}}]}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+<header class="site">
+  <a class="mark" href="/">BEAKDOWN</a>
+  <span class="tag">Settle the pecking order.</span>
+</header>
+
+<main>
+<div class="hero">
+  <p class="eyebrow">The canonical page · everything in one place</p>
+  <h1>Beakdown, the complete reference</h1>
+  <p class="lede">Beakdown is a free single-player browser arcade game in which you fly
+  a bird by flapping and destroy enemies by colliding with them from above, because the
+  higher bird wins. This page is the complete reference: every rule, every number that
+  matters, what it costs, what it collects, and who it is for. If you would rather just
+  play, it is right here.</p>
+</div>
+
+<div class="perch">
+  <iframe id="game" class="frame" src="/" width="800" height="520" loading="eager"
+    title="Beakdown, a playable arcade game. Hold the left or right side of the screen to fly that way. On a keyboard, use the arrow keys or A and D to steer and space to climb."></iframe>
+</div>
+<p class="controls"><b>Touch:</b> hold the left or right half of the screen to fly that way.
+<b>Keyboard:</b> left and right arrows or A and D to steer, space to climb. Any key starts.
+Every clash goes to the higher bird.</p>
+
+<hr class="rule">
+
+<section>
+  <h2>The complete rules</h2>
+  <p>When two birds collide, the game compares the height of each bird's crest. The
+  higher bird wins and the lower bird is destroyed. If the two are within a small band
+  of level, nobody dies; both birds bounce apart. That comparison is drawn on screen at
+  every clash: the game freezes for a beat and marks each bird's height with a line,
+  which is the entire tutorial.</p>
+  <p>The arena wraps horizontally, so flying off one side brings you in on the other,
+  and enemies, eggs and pickups wrap the same way. Platforms are solid from above and
+  below: you land on their tops and bonk off their undersides. The floor and ceiling
+  are solid. Losing a clash costs a life and a short respawn; losing your last life
+  ends the run at a score screen.</p>
+  <p>Every downed enemy drops an egg worth 250 points. In the first three waves eggs
+  rot if ignored. From wave four onward they hatch into fresh enemies, and hatch times
+  shrink as waves climb, down to a floor of four seconds. Each egg keeps the hatch
+  timer of the wave it dropped in, and a wave only ends when no enemies and no
+  hatchable eggs remain.</p>
+</section>
+
+<section>
+  <h2>Controls</h2>
+  <p>On touch, hold the left or right half of the screen to fly that way. Holding
+  auto-flaps about five times a second and drifts you sideways, which is enough to
+  climb steadily with one thumb. Deliberate taps flap faster, up to nearly nine a
+  second, and each tap adds a sideways kick, so tapping is the faster, more skilled
+  option.</p>
+  <p>On a keyboard, the left and right arrows or A and D steer, and space climbs
+  straight up. Holding a key behaves like holding the screen; tapping keys behaves
+  like tapping. Any key or tap starts a run from the title screen. A mouse works like
+  touch: click and hold either half of the play area.</p>
+</section>
+
+<section>
+  <h2>Power-ups</h2>
+  <h3>Star</h3>
+  <p>About seven seconds of invincibility. While it lasts, any contact destroys the
+  enemy regardless of height, each worth 1000 points, and the bird trails a rainbow so
+  everyone can see the tables have turned. Stars drop from downed enemies at a rate
+  that works out to roughly one every couple of waves.</p>
+  <h3>Heart</h3>
+  <p>One extra life, added on the spot. There is no cap on lives.</p>
+  <h3>Mushroom</h3>
+  <p>Makes the bird about a third larger, with a proportionally higher crest, so
+  clashes genuinely tilt in your favour. While held, a losing clash strips the mushroom
+  instead of costing a life, with a brief moment of grace afterwards. The mushroom is
+  not dropped by enemies; it appears somewhere in the arena, expires if left too long,
+  and reappears elsewhere, so holding the advantage means going and getting it.</p>
+</section>
+
+<section>
+  <h2>Arenas, waves and escalation</h2>
+  <p>There are twelve arena layouts: Terraces, Towers, The Spine, The Steps, The
+  Cavern, The Isles, The Ladder, The Pit, The Crown, The Comb, The Hourglass and
+  The Roost. Each is also played mirrored, and a mirrored ground announces itself as
+  reversed, giving 24 distinct grounds. The arena changes every three waves, and no
+  ground repeats until wave 72.</p>
+  <p>Waves start at three enemies and grow to a cap of ten. The fast red hunters enter
+  from wave three at roughly a third of spawns and rise to seven in ten. Egg hatch
+  times shrink from seven seconds toward the four-second floor. Every one of those
+  dials reaches its maximum by wave 32, and from there the game holds at peak pressure;
+  past that point the test is endurance rather than new escalation.</p>
+</section>
+
+<section>
+  <h2>Scoring and lives</h2>
+  <p>A standard bird is worth 500 points, a fast red bird 750, any bird destroyed while
+  invincible 1000, and a collected egg 250. You start with three lives and earn a
+  guaranteed extra life every five waves, at waves six, eleven, sixteen and so on, with
+  hearts stacking on top without limit. The best score of any run is kept and shown on
+  the title and score screens.</p>
+</section>
+
+<section>
+  <h2>Cost, requirements and data</h2>
+  <p>Beakdown is free. There are no ads, no purchases, no account and no sign-up. It
+  runs in any modern browser on a phone, tablet or computer, and the arena adapts its
+  shape to the screen it is on. The connection is only needed to load the page; once
+  loaded, the game keeps running if the network drops, and there is no install, so a
+  bookmark is the way to keep it.</p>
+  <p>It collects nothing about you. The game stores exactly one thing, your best score,
+  in your own browser's local storage, and clearing your browser data removes it. The
+  site uses Cloudflare's cookieless analytics to count visits.</p>
+</section>
+
+<section>
+  <h2>Who made it</h2>
+  <p>Beakdown is made in Australia by
+  <a href="https://nathanhaslewood.com.au" rel="noopener">Nathan Haslewood</a>, an
+  independent developer, and lives at <a href="/">beakdown.fun</a>. The whole game is a
+  single hand-built web page.</p>
+</section>
+
+<section>
+  <h2>Who it suits, and who it does not</h2>
+  <p>Beakdown suits players who want short arcade runs with somewhere to go: fights
+  decided by positioning, a difficulty curve that keeps climbing, and one-thumb play on
+  a phone. It is silent by design, which makes it a good neighbour in a classroom or an
+  office.</p>
+  <p>It will not satisfy someone looking for the exact one-button endless loop of
+  Flappy Bird; that is a different game with different pleasures, and the honest
+  routing to it is on <a href="/what-happened-to-flappy-bird">the history page</a> and
+  its links. It also is not for players who need sound, global leaderboards or a
+  two-player mode, because today it has none of those.</p>
+</section>
+
+<section class="faq" id="faq">
+  <h2>Questions people actually ask</h2>
+  <h3>What is Beakdown?</h3>
+  <p>A free single-player browser arcade game in which you fly a bird by flapping and
+  destroy enemies by colliding with them from above, because the higher bird wins.
+  It escalates in waves across 24 rotating arenas with three power-ups.</p>
+  <h3>Is it really free?</h3>
+  <p>Yes. No price, no ads, no purchases, no catch.</p>
+  <h3>Does it need an account or sign-up?</h3>
+  <p>No. Open the page and play. There is no login anywhere on the site.</p>
+  <h3>What does it collect or track?</h3>
+  <p>The game stores only your best score, in your own browser. The site uses
+  Cloudflare's cookieless analytics to count visits, and nothing identifies you.</p>
+  <h3>What devices and browsers does it run on?</h3>
+  <p>Any modern browser on a phone, tablet or computer. The arena reshapes itself to
+  the screen, taller on phones and wider on desktops.</p>
+  <h3>How do I start a game?</h3>
+  <p>Open <a href="/">beakdown.fun</a> and tap the screen or press any key. The same
+  input that starts the run is the input that flies the bird.</p>
+  <h3>What is the winning rule?</h3>
+  <p>Be higher than the other bird when you collide. The higher crest wins every clash,
+  and near-level clashes bounce both birds apart harmlessly.</p>
+  <h3>What do the power-ups do?</h3>
+  <p>The star gives about seven seconds of invincibility with 1000 points per kill.
+  The heart adds one life, uncapped. The mushroom makes you larger with a higher
+  crest and absorbs one losing clash, and it expires and moves, so it must be chased.</p>
+  <h3>How many arenas are there?</h3>
+  <p>Twelve layouts, each also played mirrored, for 24 distinct grounds. The arena
+  changes every three waves and nothing repeats until wave 72.</p>
+  <h3>Does the difficulty ever stop rising?</h3>
+  <p>It climbs until wave 32, where enemy count, the share of fast hunters and egg
+  hatch speed all reach their maximums. From there the game holds at peak pressure.</p>
+  <h3>Can I play offline?</h3>
+  <p>Once loaded, the game keeps running without a connection, because the whole game
+  is in the page. Reloading needs the network back, and there is no installable
+  offline version.</p>
+  <h3>Is there sound?</h3>
+  <p>No, the game is deliberately silent for now.</p>
+  <h3>Is there a two-player mode?</h3>
+  <p>Not yet; Beakdown is single-player today. If that changes, the site will say so.</p>
+  <h3>Is Beakdown related to Flappy Bird?</h3>
+  <p>No. It is an original game with its own rules and code, not a clone or remake of
+  anything. This site also tells <a href="/what-happened-to-flappy-bird">that game's
+  history</a> because people ask, but the two are different games.</p>
+</section>
+</main>
+
+<footer class="site">
+  <span>Beakdown lives at <a href="/">beakdown.fun</a></span>
+  <span>made by <a href="https://nathanhaslewood.com.au" rel="noopener">Nathan Haslewood</a></span>
+</footer>
+
+</div>
+<script>
+(function(){
+  var f=document.getElementById('game');
+  if(!f)return;
+  var GK={' ':1,'ArrowLeft':1,'ArrowRight':1,'a':1,'d':1,'A':1,'D':1};
+  function fw(){try{return f.contentWindow;}catch(e){return null;}}
+  function focusGame(){var w=fw();if(w){try{w.focus();}catch(e){}}}
+  function nearViewport(){
+    var r=f.getBoundingClientRect();
+    return r.bottom>60&&r.top<window.innerHeight-60;
+  }
+  function relay(type,e){
+    if(!GK[e.key]||e.metaKey||e.ctrlKey||e.altKey)return;
+    var t=e.target;
+    if(t&&t!==document.body&&t!==document.documentElement)return;
+    if(!nearViewport())return;
+    var w=fw();
+    if(!w||!w.document)return;
+    if(w.document.hasFocus&&w.document.hasFocus())return;
+    e.preventDefault();
+    focusGame();
+    try{w.dispatchEvent(new w.KeyboardEvent(type,{key:e.key,repeat:!!e.repeat}));}
+    catch(err){
+      try{w.dispatchEvent(new KeyboardEvent(type,{key:e.key,repeat:!!e.repeat}));}catch(e2){}
+    }
+  }
+  window.addEventListener('keydown',function(e){relay('keydown',e);});
+  window.addEventListener('keyup',function(e){relay('keyup',e);});
+})();
+</script>
+</body>
+</html>

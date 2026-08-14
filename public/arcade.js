@@ -60,6 +60,36 @@
   shrinkBtn.addEventListener('click', unzoom);
   addEventListener('keydown', e => { if (e.key === 'Escape') unzoom(); });
 
+  /* Keyboard relay, moved here from the four pages that each carried a copy.
+     It has to live with the iframe now: the old copies resolved #game once at
+     load, and a machine that does not build its iframe until it is tapped
+     would have left them disabled, so arrow keys and space would scroll the
+     page instead of flying the bird. The guards are the ones those pages used.
+     live is the iframe currently running, or null. */
+  const GK = {' ':1,'ArrowLeft':1,'ArrowRight':1,'a':1,'d':1,'A':1,'D':1};
+  let live = null;
+
+  function relay(type, e){
+    if (!live || !GK[e.key] || e.metaKey || e.ctrlKey || e.altKey) return;
+    const t = e.target;
+    if (t && t !== document.body && t !== document.documentElement) return;
+    const r = live.getBoundingClientRect();
+    if (!(r.bottom > 60 && r.top < window.innerHeight - 60)) return;
+    let w = null;
+    try { w = live.contentWindow; } catch(err){ return; }
+    if (!w || !w.document) return;
+    if (w.document.hasFocus && w.document.hasFocus()) return;
+    e.preventDefault();
+    try { w.focus(); } catch(err){}
+    try { w.dispatchEvent(new w.KeyboardEvent(type, { key:e.key, repeat:!!e.repeat })); }
+    catch(err){
+      try { w.dispatchEvent(new KeyboardEvent(type, { key:e.key, repeat:!!e.repeat })); }
+      catch(e2){}
+    }
+  }
+  addEventListener('keydown', e => relay('keydown', e));
+  addEventListener('keyup',   e => relay('keyup', e));
+
   const attractInner =
     '<span class="title">' + GAME.name + '</span>' +
     '<span class="play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3 L21 12 L6 21 Z"/></svg></span>' +
@@ -120,6 +150,7 @@
         screen.appendChild(f);
         attract.remove();
         phone.classList.add('live');
+        live = f;
         watch(f);
       });
     }
@@ -133,6 +164,7 @@
         for (const e of en){
           if (document.body.classList.contains('zoomed')) continue;
           if (!e.isIntersecting && e.target.src){
+            if (live === e.target) live = null;
             e.target.removeAttribute('src');
             e.target.remove();
             const again = document.createElement('button');

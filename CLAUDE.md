@@ -14,16 +14,16 @@ The person you are working for is **on a phone**. Not sometimes, always.
 
 That has consequences you need to design around:
 
-- **They cannot run the checks locally.** CI is the only gate. Do not ask them to run
+- **They cannot run the checks locally.** Do not ask them to run
   `node scripts/verify.mjs` and report back, because they cannot.
-- **They are reviewing your diff on a phone screen.** A pull request touching nine files
-  is not reviewable. Change one thing.
+- **They are reading your diff on a phone screen.** A commit touching nine files cannot
+  be reviewed or partially undone. Change one thing.
 - **They cannot easily read a stack trace or open dev tools.** If something might break,
-  say so in the pull request before it is merged, not after.
+  say so before you commit, not after, because after means it is already live.
 - **Screenshots are how they check visual work.** Anything you change visually, describe
   precisely enough that they know what to look for and where on the screen.
 
-Write pull request descriptions accordingly: what changed, why, what to look at, and
+Write commit messages and replies accordingly: what changed, why, what to look at, and
 what might have broken. Three sentences beats three paragraphs.
 
 ## What this is
@@ -39,15 +39,27 @@ traffic level.
 
 ## How to work in this repo
 
-1. **Branch.** Never commit directly to `main`.
-2. **Change one thing.** Resist tidying unrelated code you happen to be looking at.
-3. **Open a pull request.** CI runs the checks automatically.
-4. **Read the CI result yourself** and fix failures before asking for a review. Do not
-   hand over a red build for someone on a phone to diagnose.
-5. A human merges. **Merging to `main` is a live deploy.** There is no staging.
+**There is no pull request workflow and no staging environment.** Cloudflare deploys
+every push to `main` automatically, so **every commit you make is live within about a
+minute.** Nothing reviews it first. Work accordingly.
 
-If a check fails and you believe the check itself is wrong, say so and stop. Do not edit
-the check to make it pass.
+1. **Commit directly to `main`.**
+2. **Change one thing per commit.** Small commits are the only rollback granularity
+   available, and rollback is the safety net that replaces review here. A commit
+   touching six unrelated things cannot be partially undone.
+3. **Say plainly what you changed in the commit message.** It is the only record.
+4. **Watch the Actions run afterwards and report the result.** The checks run on every
+   push but they cannot block anything, so a failure means the broken version is
+   already serving to real players. Fix it immediately or say that a rollback is needed.
+5. **Say so before you commit if a change is risky.** Once it is pushed it is live, and
+   the person you are working for is on a phone and cannot debug it.
+
+If a check fails and you believe the check itself is wrong, say so and stop. **Never
+edit a check to make it pass.**
+
+Rollback, if it comes to that: Cloudflare dashboard, Workers and Pages, `beakdown`,
+Deployments, revert to the previous version. One tap, and it is the right first move
+when something is broken in production. Diagnose afterwards.
 
 ## Things that will fail the build
 
@@ -68,9 +80,15 @@ nobody can say why, three versions after the mistake.
 
 CI hashes the block and compares it to `.feel-lock`. **Do not update `.feel-lock` to
 make a failing build pass.** That is the single worst thing you could do in this
-repository. If a change to feel was genuinely requested, update the lock in the same
-commit and say so explicitly in the pull request, so the diff shows a human what
-happened.
+repository.
+
+This matters more here than in a repo with review, not less. Nothing blocks a commit, so
+if you change a constant and update the lock to match, the game ships feeling wrong and
+the check that existed to catch it has been silenced by the same commit. There is no
+second line of defence.
+
+If a change to feel was genuinely requested, update the lock in the same commit and say
+so in the commit message and in your reply, so a human knows it happened.
 
 There is an eleventh constant, `PUSH * 3.2`, sitting inline in the update loop rather
 than in the block. It sets the drift speed of the hold control and it is the single most

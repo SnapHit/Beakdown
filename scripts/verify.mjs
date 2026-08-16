@@ -184,10 +184,20 @@ console.log('\n== 6. the game still runs ==');
 }
 
 console.log('\n== manifest ==');
-for (const f of readdirSync(PUB).sort()) {
-  const b = readFileSync(join(PUB, f));
-  console.log(`  ${f.padEnd(34)} ${String(b.length).padStart(7)}  ${createHash('sha256').update(b).digest('hex').slice(0, 12)}`);
+/* WALKS SUBDIRECTORIES, and it used to not. The music moved into
+ * public/music/, readFileSync throws EISDIR on a directory entry, and the
+ * crash took the exit code with it: all the checks above passed and the
+ * script still reported failure. Nothing here decides pass or fail. It is
+ * the record of what shipped, so it lists everything that ships. */
+function manifest(dir, prefix = '') {
+  for (const e of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name < b.name ? -1 : 1)) {
+    const label = prefix + e.name;
+    if (e.isDirectory()) { manifest(join(dir, e.name), label + '/'); continue; }
+    const b = readFileSync(join(dir, e.name));
+    console.log(`  ${label.padEnd(34)} ${String(b.length).padStart(7)}  ${createHash('sha256').update(b).digest('hex').slice(0, 12)}`);
+  }
 }
+manifest(PUB);
 
 console.log(failed ? `\n${failed} CHECK(S) FAILED. Deploy blocked.\n` : '\nAll checks passed.\n');
 process.exit(failed ? 1 : 0);

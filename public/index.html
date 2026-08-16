@@ -148,9 +148,52 @@ canvas{display:block;position:fixed;inset:0}
   font-size:15px;letter-spacing:.24em;font-weight:600;pointer-events:none;
   opacity:0;transition:opacity .2s;text-shadow:0 2px 10px #000}
 #flash.on{opacity:1}
+/* ----------------------------------------------------------------
+   THE BOOT SPLASH. The SnapHit lockup on the game's own void, over
+   everything, for about a second and a half, on a cold load only.
+
+   THE FIELD IS OPAQUE FROM THE FIRST PAINT and stays that way until the
+   splash leaves. It is in the markup, so the browser paints this before
+   the script has been parsed, which is what covers the load. Only the
+   lockup fades in; the container fades out at the end, taking the field
+   with it. Fading the container in as well would uncover the page while
+   the script was still parsing.
+
+   THE CHROME IS HIDDEN WHILE IT IS UP, and that is not cosmetic. #boot
+   is pointer-events:none so a tap meant to skip falls through to the
+   canvas, and the footer links sit directly in that path. Hiding them is
+   what stops a skip landing on a link. #msg needs no entry: it has no
+   z-index and no pointer events, so the field already covers it. */
+html.booting #chrome, html.booting #atog{display:none!important}
+#boot{position:fixed;top:0;right:0;bottom:0;left:0;z-index:9;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;background:#150e1c;opacity:1}
+#boot[hidden]{display:none}
+/* The lockup ARRIVES, so it starts absent and the frame loop brings it in.
+   Until the first frame runs there is a plain dark field, which is the right
+   thing to be looking at while a page loads.
+   SIZED BY BOTH DIMENSIONS. The lockup is 1780 by 1263, landscape itself, so
+   a width alone gives a mark that runs off the top and bottom of a portrait
+   phone. 1780/1263 is 1.40935, so the height cap is expressed as a width. */
+#boot svg{display:block;opacity:0;width:82vw;height:auto;max-width:calc(62vh * 1.40935)}
 </style>
+<noscript><style>#boot{display:none}</style></noscript>
 </head>
 <body>
+<div id="boot" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1780 1263" aria-hidden="true" focusable="false">
+  <g transform="translate(666.43 90.00) scale(6.98667)"><g fill="none" stroke="#00e5ff" stroke-linecap="round" stroke-linejoin="round"><g opacity=".12" stroke-width="11"><ellipse cx="32" cy="46" rx="21" ry="7.5"/><path d="M32 43.5 V25"/><circle cx="32" cy="17" r="8.5"/></g><g opacity=".30" stroke-width="6"><ellipse cx="32" cy="46" rx="21" ry="7.5"/><path d="M32 43.5 V25"/><circle cx="32" cy="17" r="8.5"/></g><g stroke-width="2.2"><ellipse cx="32" cy="46" rx="21" ry="7.5"/><ellipse cx="32" cy="46" rx="11" ry="3.9" opacity=".55"/><path d="M32 43.5 V25"/><circle cx="32" cy="17" r="8.5"/></g></g></g>
+  <g transform="translate(90.00 608.40) scale(0.33410)">
+  <path d="M182 502H0Q2 571 38.5 620Q75 669 136 694Q197 719 274 719Q353 719 411 690Q469 661 499.5 612Q530 563 530 503Q530 440 499 400Q468 360 425.5 339Q383 318 315 295Q247 273 215 254Q183 235 183 201Q183 170 202 153.5Q221 137 252 137Q288 137 311 156.5Q334 176 336 210H521Q516 111 445 55.5Q374 0 258 0Q144 0 73 55.5Q2 111 2 209Q2 275 33 316Q64 357 107 378Q150 399 218 420Q265 434 290.5 445Q316 456 333.5 473Q351 490 351 516Q351 547 329 564.5Q307 582 269 582Q232 582 209 561.5Q186 541 182 502ZM1177 712H1348V10H1177V445L891 10H720V712H891V279L1177 712ZM1732 588H1994L2036 712H2217L1963 10H1765L1511 712H1690L1732 588ZM1863 199 1950 456H1777L1863 199ZM2550 460H2656Q2742 460 2800 429Q2858 398 2886 347.5Q2914 297 2914 236Q2914 170 2885 119Q2856 68 2798 39Q2740 10 2656 10H2379V712H2550V460ZM2716 171Q2740 194 2740 236Q2740 278 2716 301Q2692 324 2643 324H2550V148H2643Q2692 148 2716 171ZM3696 712V10H3525V285H3259V10H3088V712H3259V423H3525V712H3696ZM3904 10V712H4075V10ZM4789 147V10H4246V147H4432V712H4603V147H4789Z" fill="none" stroke="#ff9424" stroke-width="212" stroke-linejoin="round" stroke-linecap="round" opacity="0.070"/>
+  <path d="M182 502H0Q2 571 38.5 620Q75 669 136 694Q197 719 274 719Q353 719 411 690Q469 661 499.5 612Q530 563 530 503Q530 440 499 400Q468 360 425.5 339Q383 318 315 295Q247 273 215 254Q183 235 183 201Q183 170 202 153.5Q221 137 252 137Q288 137 311 156.5Q334 176 336 210H521Q516 111 445 55.5Q374 0 258 0Q144 0 73 55.5Q2 111 2 209Q2 275 33 316Q64 357 107 378Q150 399 218 420Q265 434 290.5 445Q316 456 333.5 473Q351 490 351 516Q351 547 329 564.5Q307 582 269 582Q232 582 209 561.5Q186 541 182 502ZM1177 712H1348V10H1177V445L891 10H720V712H891V279L1177 712ZM1732 588H1994L2036 712H2217L1963 10H1765L1511 712H1690L1732 588ZM1863 199 1950 456H1777L1863 199ZM2550 460H2656Q2742 460 2800 429Q2858 398 2886 347.5Q2914 297 2914 236Q2914 170 2885 119Q2856 68 2798 39Q2740 10 2656 10H2379V712H2550V460ZM2716 171Q2740 194 2740 236Q2740 278 2716 301Q2692 324 2643 324H2550V148H2643Q2692 148 2716 171ZM3696 712V10H3525V285H3259V10H3088V712H3259V423H3525V712H3696ZM3904 10V712H4075V10ZM4789 147V10H4246V147H4432V712H4603V147H4789Z" fill="none" stroke="#ff9424" stroke-width="148" stroke-linejoin="round" stroke-linecap="round" opacity="0.140"/>
+  <path d="M182 502H0Q2 571 38.5 620Q75 669 136 694Q197 719 274 719Q353 719 411 690Q469 661 499.5 612Q530 563 530 503Q530 440 499 400Q468 360 425.5 339Q383 318 315 295Q247 273 215 254Q183 235 183 201Q183 170 202 153.5Q221 137 252 137Q288 137 311 156.5Q334 176 336 210H521Q516 111 445 55.5Q374 0 258 0Q144 0 73 55.5Q2 111 2 209Q2 275 33 316Q64 357 107 378Q150 399 218 420Q265 434 290.5 445Q316 456 333.5 473Q351 490 351 516Q351 547 329 564.5Q307 582 269 582Q232 582 209 561.5Q186 541 182 502ZM1177 712H1348V10H1177V445L891 10H720V712H891V279L1177 712ZM1732 588H1994L2036 712H2217L1963 10H1765L1511 712H1690L1732 588ZM1863 199 1950 456H1777L1863 199ZM2550 460H2656Q2742 460 2800 429Q2858 398 2886 347.5Q2914 297 2914 236Q2914 170 2885 119Q2856 68 2798 39Q2740 10 2656 10H2379V712H2550V460ZM2716 171Q2740 194 2740 236Q2740 278 2716 301Q2692 324 2643 324H2550V148H2643Q2692 148 2716 171ZM3696 712V10H3525V285H3259V10H3088V712H3259V423H3525V712H3696ZM3904 10V712H4075V10ZM4789 147V10H4246V147H4432V712H4603V147H4789Z" fill="none" stroke="#ff9424" stroke-width="96" stroke-linejoin="round" stroke-linecap="round" opacity="0.300"/>
+  <path d="M182 502H0Q2 571 38.5 620Q75 669 136 694Q197 719 274 719Q353 719 411 690Q469 661 499.5 612Q530 563 530 503Q530 440 499 400Q468 360 425.5 339Q383 318 315 295Q247 273 215 254Q183 235 183 201Q183 170 202 153.5Q221 137 252 137Q288 137 311 156.5Q334 176 336 210H521Q516 111 445 55.5Q374 0 258 0Q144 0 73 55.5Q2 111 2 209Q2 275 33 316Q64 357 107 378Q150 399 218 420Q265 434 290.5 445Q316 456 333.5 473Q351 490 351 516Q351 547 329 564.5Q307 582 269 582Q232 582 209 561.5Q186 541 182 502ZM1177 712H1348V10H1177V445L891 10H720V712H891V279L1177 712ZM1732 588H1994L2036 712H2217L1963 10H1765L1511 712H1690L1732 588ZM1863 199 1950 456H1777L1863 199ZM2550 460H2656Q2742 460 2800 429Q2858 398 2886 347.5Q2914 297 2914 236Q2914 170 2885 119Q2856 68 2798 39Q2740 10 2656 10H2379V712H2550V460ZM2716 171Q2740 194 2740 236Q2740 278 2716 301Q2692 324 2643 324H2550V148H2643Q2692 148 2716 171ZM3696 712V10H3525V285H3259V10H3088V712H3259V423H3525V712H3696ZM3904 10V712H4075V10ZM4789 147V10H4246V147H4432V712H4603V147H4789Z" fill="#ffffff" stroke="#ff9424" stroke-width="62" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(554.00 931.82) scale(0.11871)">
+  <path d="M122 512H0Q0 572 32 617Q64 662 120 686.5Q176 711 246 711Q320 711 374.5 682.5Q429 654 457.5 607Q486 560 486 507Q486 441 455.5 401.5Q425 362 381.5 343Q338 324 269 305Q217 291 187 279Q157 267 137.5 246.5Q118 226 118 194Q118 147 149 122Q180 97 229 97Q283 97 316 124Q349 151 352 189H478Q471 101 406.5 50.5Q342 0 241 0Q170 0 116 24Q62 48 32 93Q2 138 2 198Q2 263 32 302Q62 341 104.5 359.5Q147 378 215 396Q269 410 299.5 422Q330 434 350.5 456Q371 478 371 513Q371 558 338 586.5Q305 615 246 615Q189 615 157.5 586Q126 557 122 512ZM1330 102V9H845V102H1031V704H1145V102H1330ZM1818 452V9H1704V450Q1704 535 1740 594Q1776 653 1837.5 682Q1899 711 1974 711Q2049 711 2111 682Q2173 653 2210 594Q2247 535 2247 450V9H2133V452Q2133 531 2091.5 571Q2050 611 1975 611Q1901 611 1859.5 571Q1818 531 1818 452ZM3205.5 543Q3251 465 3251 359Q3251 253 3205.5 173.5Q3160 94 3076.5 51.5Q2993 9 2882 9H2655V704H2882Q2993 704 3076.5 662.5Q3160 621 3205.5 543ZM3069 170Q3134 238 3134 359Q3134 479 3069 545Q3004 611 2882 611H2769V102H2882Q3004 102 3069 170ZM3624 9V704H3738V9ZM4157.5 172Q4110 253 4110 355Q4110 457 4157.5 538.5Q4205 620 4286.5 665.5Q4368 711 4465 711Q4563 711 4644.5 665.5Q4726 620 4773 538.5Q4820 457 4820 355Q4820 253 4773 172Q4726 91 4644.5 45.5Q4563 0 4465 0Q4368 0 4286.5 45.5Q4205 91 4157.5 172ZM4672.5 220Q4703 278 4703 355Q4703 432 4672.5 490.5Q4642 549 4588 580.5Q4534 612 4465 612Q4396 612 4342 580.5Q4288 549 4257.5 490.5Q4227 432 4227 355Q4227 278 4257.5 220Q4288 162 4342 131Q4396 100 4465 100Q4534 100 4588 131Q4642 162 4672.5 220ZM5297 512H5175Q5175 572 5207 617Q5239 662 5295 686.5Q5351 711 5421 711Q5495 711 5549.5 682.5Q5604 654 5632.5 607Q5661 560 5661 507Q5661 441 5630.5 401.5Q5600 362 5556.5 343Q5513 324 5444 305Q5392 291 5362 279Q5332 267 5312.5 246.5Q5293 226 5293 194Q5293 147 5324 122Q5355 97 5404 97Q5458 97 5491 124Q5524 151 5527 189H5653Q5646 101 5581.5 50.5Q5517 0 5416 0Q5345 0 5291 24Q5237 48 5207 93Q5177 138 5177 198Q5177 263 5207 302Q5237 341 5279.5 359.5Q5322 378 5390 396Q5444 410 5474.5 422Q5505 434 5525.5 456Q5546 478 5546 513Q5546 558 5513 586.5Q5480 615 5421 615Q5364 615 5332.5 586Q5301 557 5297 512Z" fill="#ffd9a2"/>
+  </g>
+  <g transform="translate(362.00 1104.22) scale(0.09604)">
+  <path d="M0 9V704H114V9ZM981 704H1095V8H981V526L638 8H524V704H638V185L981 704ZM1610 512H1488Q1488 572 1520 617Q1552 662 1608 686.5Q1664 711 1734 711Q1808 711 1862.5 682.5Q1917 654 1945.5 607Q1974 560 1974 507Q1974 441 1943.5 401.5Q1913 362 1869.5 343Q1826 324 1757 305Q1705 291 1675 279Q1645 267 1625.5 246.5Q1606 226 1606 194Q1606 147 1637 122Q1668 97 1717 97Q1771 97 1804 124Q1837 151 1840 189H1966Q1959 101 1894.5 50.5Q1830 0 1729 0Q1658 0 1604 24Q1550 48 1520 93Q1490 138 1490 198Q1490 263 1520 302Q1550 341 1592.5 359.5Q1635 378 1703 396Q1757 410 1787.5 422Q1818 434 1838.5 456Q1859 478 1859 513Q1859 558 1826 586.5Q1793 615 1734 615Q1677 615 1645.5 586Q1614 557 1610 512ZM2818 102V9H2333V102H2519V704H2633V102H2818ZM3321 562H3612L3662 704H3782L3533 8H3401L3152 704H3271L3321 562ZM3467 146 3580 469H3353L3467 146ZM4607 704H4721V8H4607V526L4264 8H4150V704H4264V185L4607 704ZM5580 102V9H5095V102H5281V704H5395V102H5580ZM5928 638Q5928 669 5949 690Q5970 711 6001 711Q6031 711 6052 690Q6073 669 6073 638Q6073 607 6052 586Q6031 565 6001 565Q5970 565 5949 586Q5928 607 5928 638ZM7610 422H7736Q7822 422 7877 392.5Q7932 363 7957 316Q7982 269 7982 216Q7982 158 7954.5 111Q7927 64 7871.5 36.5Q7816 9 7736 9H7496V704H7610V422ZM7736 102Q7865 102 7865 216Q7865 270 7833 299.5Q7801 329 7736 329H7610V102H7736ZM8700 612H8465V9H8351V704H8700V612ZM9183 562H9474L9524 704H9644L9395 8H9263L9014 704H9133L9183 562ZM9329 146 9442 469H9215L9329 146ZM10297 452 10527 9H10401L10240 350L10079 9H9952L10183 452V704H10297V452ZM10850 638Q10850 669 10871 690Q10892 711 10923 711Q10953 711 10974 690Q10995 669 10995 638Q10995 607 10974 586Q10953 565 10923 565Q10892 565 10871 586Q10850 607 10850 638Z" fill="#ff9424"/>
+  </g>
+</svg></div>
 <canvas id="cv"></canvas>
 <div id="hud"><span>SCORE <b id="hS">0</b></span><span id="hR"></span></div>
 <div id="flash"></div>
@@ -582,6 +625,75 @@ function resize(){
 }
 window.addEventListener('resize',resize);
 
+/* ---- THE BOOT SPLASH ---------------------------------------------
+   Three phases: the lockup arrives, holds, then the whole field leaves.
+
+   These are NOT feel constants and are deliberately not in that block.
+   FEEL is the ten numbers that decide how flying feels, it is hashed
+   against .feel-lock, and how long a publisher lockup sits on screen is
+   not one of them. */
+const BOOT_FADE_IN=0.18, BOOT_HOLD=1.00, BOOT_FADE_OUT=0.28;
+
+const bootEl=document.getElementById('boot');
+const bootMark=bootEl?bootEl.querySelector('svg'):null;
+
+/* The three phases added up, in the one place they are ever added up. */
+function bootTotal(){
+  return Math.max(0,BOOT_FADE_IN)+Math.max(0,BOOT_HOLD)+Math.max(0,BOOT_FADE_OUT);
+}
+
+/* THE ONLY ASSIGNMENT THAT STARTS IT, and it happens once, at load.
+   Nothing else in this file sets bootFlash to anything but zero, so no
+   run, restart, unpause or wave can bring the splash back. A splash
+   between attempts is exactly the thing that breaks the one more go
+   loop, and restart here is instant on the same input. */
+let bootFlash=bootTotal();
+let bootShown=true;
+let bootChromeHidden=true;
+let bootPainted=false;
+
+function skipBoot(){ bootFlash=0; endBootChrome(); }
+
+/* The chrome comes back EXACTLY ONCE, whichever way the splash ended,
+   skipped or expired. */
+function endBootChrome(){
+  if(!bootChromeHidden)return;
+  bootChromeHidden=false;
+  try{ document.documentElement.classList.remove('booting'); }catch(e){}
+  if(bootShown&&bootEl){ bootShown=false; bootEl.hidden=true; }
+  /* The chrome was display:none for the whole splash, so this is the
+     first moment it exists to be measured. Beakdown sizes its canvas off
+     the window rather than off the chrome, so this is insurance rather
+     than a correction, but it is cheap and it is the moment to take it. */
+  resize();
+}
+
+/* IN, HOLD, OUT read off the ONE countdown rather than a second clock, so
+   there is still exactly one number that can end the splash. The fade in
+   is measured from the start and the fade out from the end, so the hold
+   is simply whatever is between them. Both guard against a zero length
+   phase, because a fade of nothing should be a hard cut rather than a
+   division by nothing. */
+function bootMarkAlpha(){
+  const gone=bootTotal()-bootFlash;
+  if(!(BOOT_FADE_IN>0))return 1;
+  return Math.max(0,Math.min(1,gone/BOOT_FADE_IN));
+}
+function bootFieldAlpha(){
+  if(!(BOOT_FADE_OUT>0))return 1;
+  return Math.max(0,Math.min(1,bootFlash/BOOT_FADE_OUT));
+}
+function syncBoot(){
+  if(!bootEl)return;
+  if(bootFlash<=0){ if(bootShown){ bootShown=false; bootEl.hidden=true; } return; }
+  if(bootMark) bootMark.style.opacity=bootMarkAlpha();
+  bootEl.style.opacity=bootFieldAlpha();
+  bootPainted=true;
+}
+
+if(bootFlash>0){ try{ document.documentElement.classList.add('booting'); }catch(e){} }
+else bootChromeHidden=false;
+
 /* ---- FEEL. unchanged since the version that played well. tune only here. ---- */
 const G=1150, FLAP=340, MAXUP=430, MAXFALL=820,
       PUSH=230, HDRAG=2.6, MAXH=380, FLAPCD=115,
@@ -793,6 +905,10 @@ function drop(x,y,type,vx,vy){
 let hold=0, pressed=false;
 function press(e){
   e.preventDefault();
+  /* A tap during the splash is the skip, and it is SWALLOWED rather than
+     also starting a run, so dismissing the lockup cannot begin a game
+     nobody has looked at yet. */
+  if(bootFlash>0){ skipBoot(); return; }
   if(state==='title'||state==='over'){state='play';msg.classList.add('hide');showCredit(false);
     if(sfxOn||musOn){audioInit();audioWake(); if(musOn)MUS.start();}
     reset();return;}
@@ -812,6 +928,8 @@ cv.addEventListener('pointermove',function(e){
 cv.addEventListener('pointerup',release);
 cv.addEventListener('pointercancel',release);
 window.addEventListener('keydown',function(e){
+  // Swallowed for the same reason the tap is.
+  if(bootFlash>0){ skipBoot(); return; }
   if(state!=='play'){state='play';msg.classList.add('hide');showCredit(false);
     if(sfxOn||musOn){audioInit();audioWake(); if(musOn)MUS.start();}
     reset();return;}
@@ -931,6 +1049,8 @@ function killPlayer(){
 let last=performance.now();
 function frame(now){
   const raw=(now-last)/1000; const dt=Math.min(0.033,raw); last=now;
+  if(bootFlash>0){ bootFlash-=dt; if(bootFlash<=0){ bootFlash=0; endBootChrome(); } }
+  syncBoot();
   if(fx&&state==='play'){
     frameAcc+=raw; frameN++;
     if(frameN>=30){

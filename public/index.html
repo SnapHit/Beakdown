@@ -243,7 +243,7 @@ if(!CanvasRenderingContext2D.prototype.roundRect){
 // embedded copies live on pages aimed at school hardware and unexpected noise in a
 // classroom closes the tab. An explicit choice by the player always wins over both.
 const FRAMED = (function(){ try{ return window.self!==window.top; }catch(e){ return true; } })();
-let sfxOn=!FRAMED, musOn=!FRAMED, actx=null, master=null, sfxBus=null, musBus=null,
+let sfxOn=!FRAMED, musOn=!FRAMED, actx=null, master=null, sfxBus=null, musBus=null, arpBus=null,
     revBus=null, noiseBuf=null;
 try{
   const a=localStorage.getItem('beakdown_sfx'); if(a!==null) sfxOn=(a==='1');
@@ -274,7 +274,16 @@ function audioInit(){
     master.connect(shaper); shaper.connect(actx.destination);
 
     sfxBus=actx.createGain(); sfxBus.gain.value=0.75; sfxBus.connect(master);
-    musBus=actx.createGain(); musBus.gain.value=0.0;  musBus.connect(master);
+    /* musBus NOW BELONGS TO THE RECORDED TRACKS. It used to be the
+       procedural arpeggio's own volume control, ramped up and down by
+       MUS.start, MUS.stop and the star, which meant anything else routed
+       through it was multiplied by whatever the arp had last set. The
+       tracks do their own fading in per side gains, so this is a plain
+       open bus and nothing writes to it per frame. */
+    musBus=actx.createGain(); musBus.gain.value=1.0;  musBus.connect(master);
+    /* And the arp got its own, so the star theme still works and no
+       longer fights the crossfade for the same gain node. */
+    arpBus=actx.createGain(); arpBus.gain.value=0.0;  arpBus.connect(master);
 
     // plate reverb from a generated impulse. this is what gives depth.
     const conv=actx.createConvolver();
@@ -297,6 +306,7 @@ function audioInit(){
     noiseBuf=actx.createBuffer(1,nl,actx.sampleRate);
     const nd=noiseBuf.getChannelData(0);
     for(let i=0;i<nl;i++) nd[i]=Math.random()*2-1;
+    tuneWire();
   }catch(e){ actx=null; }
 }
 function audioWake(){ if(actx&&actx.state==='suspended') actx.resume(); }
@@ -456,22 +466,26 @@ const MUS={
   bpm:100, baseBpm:100, starBpm:152, step:0, sstep:0, next:0,
   timer:null, running:false, starMode:false,
 
-  enterStar(){ this.starMode=true; this.bpm=this.starBpm; this.sstep=0;
-    if(actx&&musBus){ musBus.gain.cancelScheduledValues(actx.currentTime);
-      musBus.gain.setValueAtTime(musBus.gain.value||0.0001,actx.currentTime);
-      musBus.gain.exponentialRampToValueAtTime(0.42,actx.currentTime+0.12); } },
-  exitStar(){ this.starMode=false; this.bpm=this.baseBpm;
-    if(actx&&musBus){ musBus.gain.cancelScheduledValues(actx.currentTime);
-      musBus.gain.setValueAtTime(musBus.gain.value||0.0001,actx.currentTime);
-      musBus.gain.exponentialRampToValueAtTime(0.32,actx.currentTime+0.6); } },
+  /* THE ARP IS NOW THE STAR THEME AND NOTHING ELSE. The base loop it used
+     to play under everything has been replaced by the recorded playlist, so
+     the interval only runs while the star is up. Start it here rather than
+     leaving it ticking silently for a whole session. */
+  enterStar(){ this.starMode=true; this.bpm=this.starBpm; this.sstep=0; this.start();
+    if(actx&&arpBus){ arpBus.gain.cancelScheduledValues(actx.currentTime);
+      arpBus.gain.setValueAtTime(arpBus.gain.value||0.0001,actx.currentTime);
+      arpBus.gain.exponentialRampToValueAtTime(0.42,actx.currentTime+0.12); } },
+  exitStar(){ this.starMode=false; this.bpm=this.baseBpm; this.stop();
+    if(actx&&arpBus){ arpBus.gain.cancelScheduledValues(actx.currentTime);
+      arpBus.gain.setValueAtTime(arpBus.gain.value||0.0001,actx.currentTime);
+      arpBus.gain.exponentialRampToValueAtTime(0.32,actx.currentTime+0.6); } },
 
 
   start(){
     if(this.running||!actx||!musOn)return;
     this.running=true; this.step=0; this.next=actx.currentTime+0.08;
-    musBus.gain.cancelScheduledValues(actx.currentTime);
-    musBus.gain.setValueAtTime(0.0001,actx.currentTime);
-    musBus.gain.exponentialRampToValueAtTime(0.32,actx.currentTime+1.6);
+    arpBus.gain.cancelScheduledValues(actx.currentTime);
+    arpBus.gain.setValueAtTime(0.0001,actx.currentTime);
+    arpBus.gain.exponentialRampToValueAtTime(0.32,actx.currentTime+1.6);
     const self=this;
     this.timer=setInterval(function(){ self.tick(); },25);
   },
@@ -479,10 +493,10 @@ const MUS={
     if(!this.running)return;
     this.running=false;
     clearInterval(this.timer); this.timer=null;
-    if(actx&&musBus){
-      musBus.gain.cancelScheduledValues(actx.currentTime);
-      musBus.gain.setValueAtTime(musBus.gain.value||0.0001,actx.currentTime);
-      musBus.gain.exponentialRampToValueAtTime(0.0001,actx.currentTime+0.5);
+    if(actx&&arpBus){
+      arpBus.gain.cancelScheduledValues(actx.currentTime);
+      arpBus.gain.setValueAtTime(arpBus.gain.value||0.0001,actx.currentTime);
+      arpBus.gain.exponentialRampToValueAtTime(0.0001,actx.currentTime+0.5);
     }
   },
   tick(){
@@ -498,7 +512,7 @@ const MUS={
     if(this.starMode){ this.playStar(t); return; }
     const bar=Math.floor(st/16), s=st%16, ch=this.chords[bar%4];
     const cyc=Math.floor(bar/4);        // 0..3, used for gentle variation
-    const B={bus:musBus,t:t};
+    const B={bus:arpBus,t:t};
 
     // pad, once a bar, long and soft
     if(s===0){
@@ -533,7 +547,7 @@ const MUS={
   },
   // two bars at 152, so it cycles roughly every three seconds
   playStar(t){
-    const s=this.sstep%16, B={bus:musBus,t:t};
+    const s=this.sstep%16, B={bus:arpBus,t:t};
     const n=this.starRiff[(this.sstep/1)%8|0];
     // the riff runs on eighths
     if(s%2===0){
@@ -551,6 +565,276 @@ const MUS={
     this.sstep++;
   }
 };
+
+/* ---- THE PLAYLIST -------------------------------------------------
+   Five recorded tracks, in order, wrapping from the fifth back to the
+   first and running for as long as the page is open. There is no picker
+   on purpose: the order IS the set, and reordering it is done by renaming
+   files in public/music/ rather than by a table here.
+
+   STREAMED, NOT DECODED. decodeAudioData on a three minute track is tens
+   of megabytes of PCM held resident, and the target device is a five year
+   old Celeron Chromebook. An HTMLAudioElement streams it instead, and
+   createMediaElementSource puts it back inside the existing graph so the
+   master, the waveshaper and the mute all still apply to it.
+
+   SAME ORIGIN. music/ is relative, so it is the same kind of request that
+   fetched the page, which is why it is not the class of thing the zero
+   off origin rule forbids. */
+const TUNE_COUNT=5;
+const TUNE_GAIN=1.58;            // the masters sit about 4 dB under a streaming level
+const TUNE_FADE_IN=2.00;         // seconds, the first track arriving
+const TUNE_CROSSFADE=2.40;       // seconds the outgoing and incoming overlap
+const TUNE_TAIL=6.00;            // seconds before the end that the next one starts
+const TUNE_RETRY_PLAY=2.5;       // seconds between re asking a refused play()
+const TUNE_RETRY_AFTER=4.0;      // seconds before a failed fetch is tried again
+const TUNE_RETRIES=4;            // and how many times, backing off each time
+const TUNE_NO_SOURCE_HOLD=2.0;   // seconds networkState 3 must PERSIST to be believed
+const NET_NO_SOURCE=3;           // HTMLMediaElement.NETWORK_NO_SOURCE
+
+/* TWO ELEMENTS, NOT ONE, because a crossfade needs both tracks audible at
+   once and an element can only be in one place at a time. A
+   MediaElementAudioSourceNode may be created once per element ever, so the
+   pair is built with the rest of the graph and nothing is ever rebuilt. */
+const tune={
+  el:[null,null], src:[null,null], g:[null,null],
+  held:[-1,-1],              // which track index each side is holding
+  live:0, index:-1,
+  lvl:[0,0], want:[0,0], rate:[1,1],
+  woke:false, wired:false, wanted:false, playing:false, begun:false,
+  failed:false, tries:0, retryIn:0,
+  waited:0, frozen:0, noSrc:0, lastTime:-1
+};
+
+function tuneWrap(i){ return ((i%TUNE_COUNT)+TUNE_COUNT)%TUNE_COUNT; }
+function tuneFile(i){ return 'music/track-'+(tuneWrap(i)+1)+'.m4a'; }
+
+/* THE ELEMENTS, AND THE PREFETCH. Called from the frame loop once the
+   splash has actually been painted, never before: nothing is fetched until
+   the player is looking at something.
+
+   Setting src here and letting it buffer through the splash and the title
+   screen is the whole reason the first note is not eight seconds late. It
+   does NOT call play() and it does NOT touch the AudioContext, because
+   neither is allowed before a gesture and neither is needed to download. */
+function tuneWake(){
+  if(tune.woke)return;
+  tune.woke=true;
+  try{
+    for(let i=0;i<2;i++){
+      const el=document.createElement('audio');
+      el.preload='auto'; el.crossOrigin=null; el.loop=false;
+      /* An error event is the one unambiguous failure: the browser has
+         looked and there is nothing there. Everything else waits. */
+      el.addEventListener('error',function(){ tuneFailed('error'); });
+      tune.el[i]=el;
+    }
+    tuneLoad(0,0);
+  }catch(e){ tune.el[0]=tune.el[1]=null; }
+}
+
+/* Into the graph, once there is a graph. NOT gated on tune.failed: wiring
+   is plumbing, and refusing to build it because the first fetch failed
+   would mean no later retry could ever make a sound. */
+function tuneWire(){
+  if(tune.wired||!actx||!musBus)return;
+  tuneWake();
+  if(!tune.el[0])return;
+  try{
+    for(let i=0;i<2;i++){
+      const src=actx.createMediaElementSource(tune.el[i]);
+      const g=actx.createGain(); g.gain.value=0;
+      src.connect(g); g.connect(musBus);
+      tune.src[i]=src; tune.g[i]=g;
+    }
+    tune.wired=true;
+  }catch(e){ /* leave it unwired; nothing else depends on it existing */ }
+}
+
+// Give one side a track and let it buffer. Never more than the one playing
+// and the one being crossfaded into, which is what two sides enforces.
+function tuneLoad(side,index){
+  const el=tune.el[side];
+  if(!el)return;
+  index=tuneWrap(index);
+  if(tune.held[side]===index)return;
+  tune.held[side]=index;
+  try{ el.src=tuneFile(index); el.load(); }catch(e){}
+}
+
+/* A FAILURE IS RARE AND RECOVERABLE. A blocked network is a fact about a
+   moment, not about a session, so each attempt backs off and tries again
+   rather than handing the rest of the session to silence. */
+function tuneFailed(reason){
+  if(tune.failed)return;
+  tune.failed=true;
+  tune.playing=false;
+  tune.begun=false;
+  tune.retryIn=TUNE_RETRY_AFTER*Math.pow(2,tune.tries);
+  for(let i=0;i<2;i++){ const el=tune.el[i]; if(el){ try{ el.pause(); }catch(e){} } }
+}
+
+function tuneRevive(){
+  if(!tune.failed||!musOn)return false;
+  if(tune.tries>=TUNE_RETRIES)return false;
+  if(tune.retryIn>0)return false;
+  tune.tries++;
+  tune.failed=false; tune.begun=false;
+  tune.waited=0; tune.frozen=0; tune.noSrc=0; tune.lastTime=-1;
+  /* The held state is thrown away so the reload is a real one: an element
+     that errored keeps its error and will not try the same src again. */
+  tune.held[0]=tune.held[1]=-1;
+  /* THE NEXT TRACK, NOT THE SAME ONE, and this was wrong first time. A file
+     that 404s or arrives truncated will do it again, so retrying it spent
+     the whole budget on the one thing that could not work and the music
+     never came back. There are five tracks: the set survives losing one,
+     and moving on IS the recovery. A real outage still backs off, because
+     every track fails in turn and the counter keeps climbing.
+
+     AND IT RESTARTS PLAYBACK. Reloading alone left tune.playing false,
+     which is what tuneFailed set it to, so tuneUpdate returned early
+     for ever and the revive looked like it worked while staying silent. */
+  tunePlay(tune.index<0?0:tuneWrap(tune.index+1), TUNE_FADE_IN);
+  return true;
+}
+
+function tunePoke(el){
+  if(!el)return;
+  try{ const q=el.play(); if(q&&q.catch) q.catch(function(){}); }catch(e){}
+}
+
+function tunePlay(index,fade){
+  index=tuneWrap(index);
+  // Prefer whichever side already holds it, which is the prefetched one.
+  const side = tune.held[tune.live]===index ? tune.live : 1-tune.live;
+  tuneLoad(side,index);
+  const el=tune.el[side];
+  if(!el)return;
+  /* THE STATE IS COMMITTED BEFORE play() IS ASKED FOR. If it were the other
+     way round an element that threw would leave the player marked not
+     playing with no side selected and nothing would ever ask again. */
+  tune.live=side; tune.index=index;
+  tune.playing=true; tune.begun=false;
+  tune.waited=0; tune.frozen=0; tune.noSrc=0; tune.lastTime=-1;
+  tunePoke(el);
+  const per=1/Math.max(0.05,fade);
+  tune.want[side]=1;     tune.rate[side]=per;
+  tune.want[1-side]=0;   tune.rate[1-side]=per;
+}
+
+/* The run is what starts the music, so the first note lands with the first
+   flap rather than over a title screen somebody is reading. Nothing waits
+   on it: if the track has not buffered the run is already under way and the
+   music joins when it arrives. */
+function tuneStart(){
+  tuneWake();
+  tuneWire();
+  tune.wanted=true;
+  if(tune.failed) tuneRevive();
+  if(!musOn||!tune.wired)return;
+  if(tune.playing){ tunePoke(tune.el[tune.live]); return; }
+  tunePlay(tune.index<0?0:tune.index, TUNE_FADE_IN);
+}
+
+function tuneSuspend(){
+  tune.wanted=false;
+  for(let i=0;i<2;i++){ const el=tune.el[i]; if(el){ try{ el.pause(); }catch(e){} } }
+}
+function tuneResume(){
+  if(!musOn||!tune.playing)return;
+  tune.wanted=true;
+  tunePoke(tune.el[tune.live]);
+}
+function tuneStop(){
+  tuneSuspend();
+  tune.playing=false;
+  tune.want[0]=tune.want[1]=0; tune.rate[0]=tune.rate[1]=1/0.3;
+}
+
+function tuneUpdate(dt){
+  if(tune.retryIn>0) tune.retryIn=Math.max(0,tune.retryIn-dt);
+  /* THE ENVELOPE, ON FRAME TIME. Linear and rate limited rather than a
+     follow, because a fade in is a promise about how long it takes and an
+     exponential tail does not keep it. */
+  for(let i=0;i<2;i++){
+    const d=tune.want[i]-tune.lvl[i], step=tune.rate[i]*dt;
+    tune.lvl[i]=Math.abs(d)<=step?tune.want[i]:tune.lvl[i]+Math.sign(d)*step;
+    if(tune.g[i]) tune.g[i].gain.value=TUNE_GAIN*tune.lvl[i];
+  }
+  if(tune.failed){ tuneRevive(); return; }
+  if(!tune.wired||!tune.playing)return;
+  const el=tune.el[tune.live];
+  if(!el)return;
+
+  /* TRAP 1, SECOND DISGUISE. networkState reads NO_SOURCE for a moment
+     after src is set and before resource selection has run, so believing it
+     immediately kills a healthy track milliseconds in. It has to PERSIST
+     before it counts as the browser saying there is nothing there. */
+  if(el.networkState===NET_NO_SOURCE){
+    tune.noSrc+=dt;
+    if(tune.noSrc>TUNE_NO_SOURCE_HOLD){ tuneFailed('no source'); return; }
+  } else tune.noSrc=0;
+
+  const moved=el.currentTime!==tune.lastTime;
+  if(moved) tune.lastTime=el.currentTime;
+  /* A track that is actually sounding clears the retry budget, so a hiccup
+     costs one attempt rather than permanently spending the allowance. */
+  if(el.currentTime>0){ if(!tune.begun) tune.tries=0; tune.begun=true; }
+
+  /* TRAP 2. A refused play() is not a failure and must not be final.
+     Catching the rejection and doing nothing leaves the element paused for
+     ever with nothing asking again, which is the "music only starts if I
+     toggle mute" bug. One throttled condition covers a slow context resume,
+     a refused first play and a device that wanted a second gesture, without
+     having to tell them apart. */
+  if(tune.wanted&&el.paused&&actx&&actx.state==='running'){
+    tune.waited+=dt;
+    if(tune.waited>TUNE_RETRY_PLAY){ tune.waited=0; tunePoke(el); }
+  } else if(!tune.begun){
+    /* TRAP 1, FIRST DISGUISE. STILL ARRIVING, AND THAT IS ALL IT IS. A
+       track that is downloading also has a currentTime that is not
+       advancing, so no clock runs out here and nothing is given up on. It
+       can take as long as it likes; the run is under way and the music
+       joins when it can. */
+    tune.waited+=dt;
+    if(tune.waited>TUNE_RETRY_PLAY){ tune.waited=0; tunePoke(el); }
+    return;
+  } else tune.waited=0;
+
+  if(!tune.begun)return;
+
+  /* A FREEZE AFTER PLAYBACK BEGAN is a rebuffer, and it waits too. The
+     track is demonstrably real, so going quiet for a moment is never a
+     reason to abandon it. */
+  if(!moved&&!el.paused){
+    tune.frozen+=dt;
+    if(tune.frozen>TUNE_RETRY_PLAY){ tune.frozen=0; tunePoke(el); }
+  } else tune.frozen=0;
+
+  /* THE NEXT ONE BUFFERS ON THE IDLE SIDE, but only once that side has
+     finished fading out, because loading a new src into it would cut off a
+     crossfade still in progress. Two in flight at most, ever. */
+  const idle=1-tune.live;
+  if(tune.lvl[idle]<=0){
+    const nxt=tuneWrap(tune.index+1);
+    if(tune.held[idle]!==nxt){
+      const other=tune.el[idle];
+      if(other){ try{ other.pause(); }catch(e){} }
+      tuneLoad(idle,nxt);
+    }
+  }
+
+  /* THE CROSSFADE, started TUNE_TAIL before the end so the two genuinely
+     overlap. duration minus currentTime is the mechanism; ended is only the
+     fallback for a file whose duration never became known. */
+  const dur=el.duration;
+  if(dur&&isFinite(dur)&&el.currentTime>0&&dur-el.currentTime<=TUNE_TAIL){
+    tunePlay(tune.index+1,TUNE_CROSSFADE);
+  } else if(el.ended){
+    tunePlay(tune.index+1,TUNE_CROSSFADE);
+  }
+}
+
 function spbLen(){ return 60/MUS.bpm*4*0.95; }
 
 const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
@@ -568,8 +852,8 @@ function setPaused(p){
   paused=p;
   pauseEl.classList.toggle('show',p);
   atog.style.display = p ? 'none' : 'flex';
-  if(p){ MUS.stop(); }
-  else if(musOn&&actx){ audioWake(); MUS.start(); }
+  if(p){ MUS.stop(); tuneSuspend(); }
+  else if(musOn&&actx){ audioWake(); if(MUS.starMode)MUS.start(); tuneResume(); }
 }
 function paintAudioUI(){
   [[bSfx,sfxOn],[tSfx,sfxOn],[pSfx,sfxOn],
@@ -588,13 +872,16 @@ function toggleSfx(e){
 }
 // silence when the tab is hidden, resume when it comes back
 document.addEventListener('visibilitychange',function(){
-  if(document.hidden){ MUS.stop(); if(state==='play') setPaused(true); }
-  else if(musOn&&actx&&!paused){ audioWake(); MUS.start(); }
+  if(document.hidden){ MUS.stop(); tuneSuspend(); if(state==='play') setPaused(true); }
+  else if(musOn&&actx&&!paused){ audioWake(); if(MUS.starMode)MUS.start(); tuneResume(); }
 });
 function toggleMus(e){
   if(e){e.preventDefault();e.stopPropagation();}
   musOn=!musOn; saveAudio(); paintAudioUI();
-  if(musOn){ audioInit(); audioWake(); MUS.start(); } else { MUS.stop(); }
+  /* The toggle is not what should be starting music for the first time,
+     but it must be able to: somebody who muted before their first run and
+     then unmuted mid run expects sound. tuneStart is idempotent. */
+  if(musOn){ audioInit(); audioWake(); tuneStart(); } else { MUS.stop(); tuneStop(); }
 }
 [bSfx,tSfx,pSfx].forEach(function(b){ if(b) b.addEventListener('pointerdown',toggleSfx); });
 [bMus,tMus,pMus].forEach(function(b){ if(b) b.addEventListener('pointerdown',toggleMus); });
@@ -910,7 +1197,7 @@ function press(e){
      nobody has looked at yet. */
   if(bootFlash>0){ skipBoot(); return; }
   if(state==='title'||state==='over'){state='play';msg.classList.add('hide');showCredit(false);
-    if(sfxOn||musOn){audioInit();audioWake(); if(musOn)MUS.start();}
+    if(sfxOn||musOn){audioInit();audioWake(); if(musOn)tuneStart();}
     reset();return;}
   hold=aimFrom(e); pressed=true; flapNow();
 }
@@ -931,7 +1218,7 @@ window.addEventListener('keydown',function(e){
   // Swallowed for the same reason the tap is.
   if(bootFlash>0){ skipBoot(); return; }
   if(state!=='play'){state='play';msg.classList.add('hide');showCredit(false);
-    if(sfxOn||musOn){audioInit();audioWake(); if(musOn)MUS.start();}
+    if(sfxOn||musOn){audioInit();audioWake(); if(musOn)tuneStart();}
     reset();return;}
   const kr=e.key||'', k=kr.length===1?kr.toLowerCase():kr;
   if(k==='Escape'||k==='p'){ setPaused(!paused); return; }
@@ -1051,6 +1338,18 @@ function frame(now){
   const raw=(now-last)/1000; const dt=Math.min(0.033,raw); last=now;
   if(bootFlash>0){ bootFlash-=dt; if(bootFlash<=0){ bootFlash=0; endBootChrome(); } }
   syncBoot();
+  /* NOTHING IS FETCHED UNTIL THE SPLASH HAS ACTUALLY BEEN PAINTED, and
+     then the tracks buffer through the rest of it and the title screen,
+     which is the seconds that stop the first note being late.
+
+     AND NOTHING IS FETCHED AT ALL IF MUSIC IS OFF. That is not a detail
+     here: the game is embedded in an iframe on all four content pages,
+     framing defaults music to off, and without this gate every visitor to
+     those pages would pull 2.4MB of track nobody was ever going to hear.
+     Someone who turns music on later gets the fetch then, because
+     tuneStart wakes the elements itself. */
+  if(bootPainted&&musOn&&!tune.woke) tuneWake();
+  tuneUpdate(dt);
   if(fx&&state==='play'){
     frameAcc+=raw; frameN++;
     if(frameN>=30){

@@ -6,9 +6,9 @@ Everything needed to rebuild this game from nothing. Written 2026-07-26, after t
 
 | | |
 |---|---|
-| Size | 86,423 bytes |
-| sha256 | `79ca50a3956d0d87da49c97b7bd711ec1e7a7c240de01d5dde411be892b3440a` |
-| Revision | 14 August 2026, recorded music, boot splash, arcade cabinet |
+| Size | 87,653 bytes |
+| sha256 | `a80ea1f4a30b0000d1af2130219c6bca111c6c81ee468947b89c7f084175318d` |
+| Revision | 17 August 2026, pause protocol, wall clock splash hold |
 
 The deployment conversation checks every deploy against that size and hash, so update both lines here whenever the file changes.
 
@@ -360,7 +360,7 @@ The caps matter. Without `FOE_MAX` the screen turns to soup, and without `HATCH_
 - **Trails:** up to 9 fading dots behind each bird, 14 and rainbow-coloured while invincible. Materially helps read fast diagonal movement on a small screen.
 - **Stars:** 46 twinkling background dots, alpha scaled per arena so bright skies do not become noisy.
 - **Hit feedback:** brief freeze plus screen shake on every clash, scaled to whether it was a kill or a death.
-- **Bird sprite:** a proper bird silhouette drawn entirely with canvas primitives. Ellipse body with a separate overlapping head circle, an orange beak, three tail feathers, a crest which is the lance, black wraparound sunglasses with a white glint, and **two wings** — a far wing behind the body in a darkened tint of the body colour, and a near wing in front in the accent colour. Both sweep together on the flap, which gives depth and reads far better in motion than the two straight strokes it replaced.
+- **Bird sprite:** a proper bird silhouette drawn entirely with canvas primitives. Ellipse body with a separate overlapping head circle, an orange beak, three tail feathers, a crest which is the lance, black wraparound sunglasses with a white glint, and **two wings**: a far wing behind the body in a darkened tint of the body colour, and a near wing in front in the accent colour. Both sweep together on the flap, which gives depth and reads far better in motion than the two straight strokes it replaced.
   **The crest tip must stay at `y = -LANCE`.** That is the point the height rule compares and the point the clash lines are drawn at. Move the crest and the game silently starts lying about who was higher.
 - **Splash:** BEAKDOWN, gold gradient, wide tracking, with the tagline "Settle the pecking order." beneath in italic gold. Two lines follow: how to flap, and "Land on your enemies."
 - **Death screen:** score as the headline, wave and best beneath, then seven counts with colour swatches matching the in-game objects. No message, because the score is the message.
@@ -497,10 +497,20 @@ All four content pages embed the game inside the SnapHit arcade cabinet, shared 
   resolved `#game` once at load, which a tap-to-load cabinet breaks silently: with no
   iframe at load, arrow keys scrolled the page instead of flying the bird.
 
-**Known trade, unresolved.** An `IntersectionObserver` destroys the iframe when the
-cabinet scrolls out of view, which ends the run and restores the attract screen. It
-exists so a canvas is not left spinning behind a reader. The better answer is a
-`postMessage` pause protocol calling the existing `setPaused()`, which is not built.
+**Pause, not unload.** An `IntersectionObserver` in `arcade.js` posts `pause` when the
+cabinet leaves the viewport and `resume` when it returns. `index.html` listens, compares
+`e.origin` against its own, ignores anything else, and calls the existing `setPaused()`.
+The game also stops drawing while paused: nothing moves without `update()`, and the
+canvas keeps its last frame, so a paused machine costs almost nothing.
+
+This replaced destroying the iframe by removing its `src`. That ended the run and put
+the attract screen back, and on pages whose purpose is getting somebody to play, losing
+a run because the reader scrolled down to read is worse than the work it saved. It cost
+more once a run had music loaded and playing behind it, which would have gone with it.
+
+Nothing waits on a reply. A frame that does not answer simply keeps running, which is
+what lets this be a courtesy between two same-origin pages rather than an API either
+side has to honour.
 
 ---
 

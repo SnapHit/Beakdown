@@ -875,6 +875,23 @@ document.addEventListener('visibilitychange',function(){
   if(document.hidden){ MUS.stop(); tuneSuspend(); if(state==='play') setPaused(true); }
   else if(musOn&&actx&&!paused){ audioWake(); if(MUS.starMode)MUS.start(); tuneResume(); }
 });
+
+/* THE PARENT MAY PAUSE US, and this is what stops a scroll costing a run. The
+   four content pages frame this game in an arcade cabinet, and when the reader
+   scrolls the cabinet out of view the cabinet asks the game to pause instead of
+   throwing the iframe away. The run, the score and the music all survive.
+
+   SAME ORIGIN ONLY. e.origin is compared against our own, so a page on another
+   host that framed us cannot drive the game. Everything else is ignored in
+   silence: this is a courtesy channel rather than an API, nobody has to speak
+   on it, and setPaused already refuses anything that is not a run in progress. */
+window.addEventListener('message',function(e){
+  if(e.origin!==location.origin)return;
+  const d=e.data;
+  const cmd=(d&&typeof d==='object')?d.beakdown:(typeof d==='string'?d:null);
+  if(cmd==='pause') setPaused(true);
+  else if(cmd==='resume') setPaused(false);
+});
 function toggleMus(e){
   if(e){e.preventDefault();e.stopPropagation();}
   musOn=!musOn; saveAudio(); paintAudioUI();
@@ -1374,7 +1391,11 @@ function frame(now){
     else { clashViz=null; update(dt); }
   }
   shake=Math.max(0,shake-dt*38);
-  draw();
+  /* NOT DRAWN WHILE PAUSED. Nothing moves without update(), so every one of
+     those frames painted an identical image. The canvas keeps its last one, so
+     skipping the call looks the same and stops the game burning a phone behind
+     a pause overlay, or behind a reader who has scrolled it out of sight. */
+  if(!paused) draw();
   requestAnimationFrame(frame);
 }
 

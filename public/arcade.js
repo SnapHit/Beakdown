@@ -155,27 +155,33 @@
       });
     }
 
-    /* Stop the loop once it has scrolled well clear, and put the attract
-       screen back so it can be started again. A run does not survive this,
-       which is the price of not leaving a canvas spinning behind the reader. */
+    /* PAUSE WHEN IT LEAVES THE VIEW, RESUME WHEN IT COMES BACK.
+
+       This used to remove the src, which destroyed the iframe and ended the
+       run with it. On a page whose whole purpose is getting somebody to play,
+       losing their run because they scrolled down to read the article is worse
+       than the work it saved, and it costs more now than it did: a run has
+       music loaded and playing behind it, and that would go too.
+
+       The game answers this on the same origin and stops both its update loop
+       and its drawing, so a paused machine is nearly free. If it does not
+       answer, nothing breaks: postMessage into a frame that is not listening
+       is a no-op, and the observer keeps working either way. */
+    function tell(cmd){
+      const f = screen.querySelector('iframe');
+      if (!f || !f.contentWindow) return;
+      try { f.contentWindow.postMessage({ beakdown: cmd }, location.origin); }
+      catch (e) { /* a frame that will not take messages simply keeps running */ }
+    }
+
     function watch(el){
       if (!('IntersectionObserver' in window)) return;
       const io = new IntersectionObserver(en => {
         for (const e of en){
+          // Expanded to full screen: it is in view by definition, whatever the
+          // observer thinks of the shrunken element underneath it.
           if (document.body.classList.contains('zoomed')) continue;
-          if (!e.isIntersecting && e.target.src){
-            if (live === e.target) live = null;
-            e.target.removeAttribute('src');
-            e.target.remove();
-            const again = document.createElement('button');
-            again.className = 'attract';
-            again.type = 'button';
-            again.innerHTML = attractInner;
-            arm(again);
-            phone.classList.remove('live');
-            screen.insertBefore(again, screen.firstChild);
-            io.unobserve(e.target);
-          }
+          tell(e.isIntersecting ? 'resume' : 'pause');
         }
       }, { rootMargin: '120px' });
       io.observe(el);

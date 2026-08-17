@@ -1336,7 +1336,18 @@ function killPlayer(){
 let last=performance.now();
 function frame(now){
   const raw=(now-last)/1000; const dt=Math.min(0.033,raw); last=now;
-  if(bootFlash>0){ bootFlash-=dt; if(bootFlash<=0){ bootFlash=0; endBootChrome(); } }
+  /* THE SPLASH COUNTS IN WALL CLOCK, NOT IN CLAMPED FRAME TIME, and it used to
+     do the latter. dt is capped at 0.033 so that a stutter cannot teleport the
+     bird, and that cap has to stay for the physics. But spending it on the
+     splash measured the hold in FRAMES rather than in seconds: below about
+     30fps the countdown ran slow, and at 10fps a 1.46 second splash sat on
+     screen for roughly 4.4 seconds. The target device is a five year old
+     Celeron with integrated graphics, which is exactly where that fires.
+
+     raw is deliberately unclamped here. A backgrounded tab returning after a
+     long pause will find the splash already over, which is correct: the time
+     really did pass, and this is a cold load flourish rather than physics. */
+  if(bootFlash>0){ bootFlash-=raw; if(bootFlash<=0){ bootFlash=0; endBootChrome(); } }
   syncBoot();
   /* NOTHING IS FETCHED UNTIL THE SPLASH HAS ACTUALLY BEEN PAINTED, and
      then the tracks buffer through the rest of it and the title screen,

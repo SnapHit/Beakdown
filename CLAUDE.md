@@ -147,8 +147,33 @@ because oscillating between quality levels reads worse than staying low.
 
 ## Audio
 
-Entirely synthesised with Web Audio. **No audio files, ever**, because that would be an
-external request in all but name and a lot of weight.
+Sound effects are entirely synthesised with Web Audio. Music is five recorded tracks,
+streamed, plus a synthesised arpeggio that now exists only as the star theme.
+
+**Audio may be shipped as files, but only from this domain, only under
+`public/music/`, and only fetched on demand when the player has music on. Never on
+page load and never on a framed page. Fonts and video remain banned outright.**
+
+This rule replaced a flat "no audio files, ever", and the reasoning matters because it
+is what stops it being re-litigated:
+
+- A same-origin file is **not an external request**. It is the same kind of request
+  that fetched the page, from the same host, so nothing about the content-filter
+  surface changes. That was the actual concern, and it does not apply here.
+- **Weight still does apply.** Twelve megabytes is real money on a school connection,
+  so nothing is fetched until somebody asks for it. The prefetch is gated on `musOn`
+  and starts only once the boot splash has been painted.
+- **The four content pages pull nothing at all.** They embed the game in an iframe,
+  framing defaults music to off, and the gate means a visitor who never turns music on
+  never downloads a byte of it. Keep it that way: an ungated prefetch would put a
+  2.4MB download on every visit to every article.
+- Fonts stay banned because a web font is weight with no upside when the system stack
+  is doing the job. Video stays banned because nothing here needs it.
+
+**Check 2 used to pass by accident.** It asserted no audio was shipped and called
+`readdirSync` on `public/` alone, so when the tracks moved one directory down it went
+on reporting green over twelve megabytes. It walks the tree now. Never trust a shallow
+directory scan to tell you what ships.
 
 Sound and music default to **on** when the game is loaded directly and **off inside an
 iframe**, because the embedded copies sit on pages aimed at school hardware. An explicit

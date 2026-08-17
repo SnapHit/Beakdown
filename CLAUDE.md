@@ -71,12 +71,18 @@ something went wrong once.
 ```js
 G=1150  FLAP=340  MAXUP=430  MAXFALL=820  PUSH=230
 HDRAG=2.6  MAXH=380  FLAPCD=115  HEIGHT_TIE=6  BODY=17
+HOLD_CD=200
 ```
 
-Ten numbers set on the first playable evening. They are the entire feel of flying and
-they have not moved in twenty-seven versions. It is very easy to nudge one while adding
-something unrelated, and the failure mode is horrible: the game feels subtly wrong and
-nobody can say why, three versions after the mistake.
+**Eleven names, not ten.** The first ten were set on the first playable evening and have
+not moved in twenty-seven versions. `HOLD_CD`, the interval between auto-flaps while a
+direction is held, was added later when friends found constant tapping annoying, and is
+the only change ever made to the block. It is inside the hash like the rest: the lock
+covers everything from `const G=` to the first semicolon, which includes it.
+
+They are the entire feel of flying. It is very easy to nudge one while adding something
+unrelated, and the failure mode is horrible: the game feels subtly wrong and nobody can
+say why, three versions after the mistake.
 
 CI hashes the block and compares it to `.feel-lock`. **Do not update `.feel-lock` to
 make a failing build pass.** That is the single worst thing you could do in this
@@ -90,9 +96,19 @@ second line of defence.
 If a change to feel was genuinely requested, update the lock in the same commit and say
 so in the commit message and in your reply, so a human knows it happened.
 
-There is an eleventh constant, `PUSH * 3.2`, sitting inline in the update loop rather
-than in the block. It sets the drift speed of the hold control and it is the single most
-likely thing in the file to be broken by accident.
+### The constant nothing guards
+
+There is a twelfth number, `PUSH * 3.2`, sitting inline in the update loop rather than in
+the block. It sets the drift speed of the hold control and it is the single most likely
+thing in the file to be broken by accident.
+
+**Nothing checks it.** `.feel-lock` hashes the block and stops at the semicolon, so this
+one is outside it, and no other check in `scripts/verify.mjs` looks at it either. Change
+it and every check still passes, the Actions run stays green, and Cloudflare serves the
+result about a minute later. A wrong value here ships silently, and the only thing
+standing between it and a game that drifts wrong is somebody noticing it in the diff.
+
+That is worth knowing before you touch the update loop for any reason.
 
 ### Zero external requests
 

@@ -5,7 +5,15 @@
  * usually many times. Encoding it means the checks survive whoever is editing
  * next, human or agent. No dependencies: plain Node, run with `node scripts/verify.mjs`.
  *
- * Exits non-zero on any failure, which fails the build and blocks the deploy.
+ * Exits non-zero on any failure, which turns the Actions run red.
+ *
+ * IT DOES NOT BLOCK ANYTHING, and it is worth being blunt about that because
+ * this comment used to claim it did. Cloudflare deploys straight from a push to
+ * main and this workflow runs alongside that deploy, not in front of it. By the
+ * time a failure is reported, the version that failed is already serving to real
+ * players. A red run means "fix it now or roll back", never "the deploy was
+ * stopped". Rollback is the Cloudflare dashboard, and it is the right first
+ * move; diagnose afterwards.
  */
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { createHash } from 'node:crypto';

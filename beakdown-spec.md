@@ -446,8 +446,10 @@ Five AAC tracks totalling 14:28 and about 12.7 MB, served from `public/music/`.
   The four content pages frame the game with music defaulting to off, so they pull
   nothing at all. An earlier build was not gated and each of those pages would have
   pulled 2.4 MB nobody was going to hear.
-- Crossfaded between tracks, wrapping round the playlist. Never more than one track in
-  flight, never more than two distinct.
+- Crossfaded between tracks, wrapping round the playlist. **Never more than two in
+  flight**: the one playing and the one being crossfaded into. Two `<audio>` elements
+  alternate, and the next track is only loaded onto the idle one once that side has
+  faded to silence, so loading it cannot cut off a crossfade still in progress.
 - A failed track advances to the next rather than retrying the same file, so one 404
   cannot mean silence for the session.
 - `public/_headers` serves them `public, max-age=31536000, immutable`. Pages stay on
@@ -518,10 +520,9 @@ side has to honour.
 
 1. **The name.** Renamed from BIRDO, which is Nintendo's character from Super Mario Bros. 2 and an active trademark. **BEAKDOWN** returned no shipped game on Steam, the app stores or itch.io in a web search, but that is a smell test and not clearance. Before release: USPTO Class 9, IP Australia, both app stores, and the domain. Note also that Flappy Bird's own trademark was declared abandoned in January 2024 and captured by a third party, so registration matters if this gains any traction.
 2. **Lifetime statistics.** Best score already persists. Games played, cumulative birds downed and best wave do not, and would give a returning player more than a single number to care about.
-3. **Sound.** The single largest missing piece of feel. A flap tick, a clash thud, a star fanfare.
-4. **Anti-camping.**
-5. **Is it a daily game?** It is currently arcade score-attack, which is not the daily-ritual shape the wider project was built around. A daily variant (identical seeded wave sequence, one run) is possible but unproven, and the skill range in a reflex game is far wider than in a puzzle, which makes score comparison less friendly than a Wordle grid.
-6. **Two-player**, which is what made the original famous. Asynchronous ghosts work from the second player onward and avoid the cold-start problem.
+3. **Anti-camping.**
+4. **Is it a daily game?** It is currently arcade score-attack, which is not the daily-ritual shape the wider project was built around. A daily variant (identical seeded wave sequence, one run) is possible but unproven, and the skill range in a reflex game is far wider than in a puzzle, which makes score comparison less friendly than a Wordle grid.
+5. **Two-player**, which is what made the original famous. Asynchronous ghosts work from the second player onward and avoid the cold-start problem.
 
 ---
 

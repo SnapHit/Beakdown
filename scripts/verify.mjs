@@ -7,7 +7,7 @@
  *
  * Exits non-zero on any failure, which fails the build and blocks the deploy.
  */
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 
@@ -29,6 +29,19 @@ const check = (m, ok, d = '') => ok ? pass(m) : fail(m, d);
 
 const html = readdirSync(PUB).filter(f => f.endsWith('.html')).sort();
 const read = f => readFileSync(join(PUB, f), 'utf8');
+
+/* Every file under public/, as a path relative to it. A shallow readdirSync is
+ * what let twelve megabytes of audio sit under a green check for a whole
+ * release, so anything asking "what do we ship" asks this instead. */
+function walk(dir, prefix = '') {
+  const out = [];
+  for (const e of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name < b.name ? -1 : 1)) {
+    if (e.isDirectory()) out.push(...walk(join(dir, e.name), prefix + e.name + '/'));
+    else out.push(prefix + e.name);
+  }
+  return out;
+}
+const shipped = walk(PUB);
 
 console.log('\n== 1. the feel constants ==');
 /* Ten numbers set on the first playable evening and unchanged since. Every version
@@ -69,8 +82,34 @@ console.log('\n== 2. zero external requests ==');
     for (const m of s.matchAll(/@import\s+["']([^"']+)/g)) bad.push(`${f}: ${m[1]}`);
   }
   check('nothing is fetched off-domain', bad.length === 0, bad.join(', '));
-  check('no audio, video or font files shipped',
-    !readdirSync(PUB).some(f => /\.(mp3|ogg|wav|m4a|mp4|woff2?|ttf)$/i.test(f)));
+
+  /* WHAT MAY BE SHIPPED AS A FILE, AND FROM WHERE.
+   *
+   * This replaced a check that asserted no audio was shipped at all and passed
+   * only because readdirSync does not recurse. Five tracks and twelve megabytes
+   * sat under a green tick because they were one directory down. A check that
+   * passes for the wrong reason is worse than no check: it manufactures
+   * confidence. This one walks the tree.
+   *
+   * Audio is now allowed, because a same-origin file is the same kind of
+   * request that fetched the page and nothing about the content-filter surface
+   * changes. It is confined to music/ so that a stray file somewhere else is a
+   * mistake rather than a precedent. Fonts and video stay banned outright:
+   * both are weight with no upside here. */
+  const fonts = shipped.filter(f => /\.(woff2?|ttf|otf|eot)$/i.test(f));
+  const video = shipped.filter(f => /\.(mp4|m4v|webm|mov|avi|mkv|ogv)$/i.test(f));
+  const audio = shipped.filter(f => /\.(mp3|m4a|aac|ogg|oga|opus|wav|flac)$/i.test(f));
+  const stray = audio.filter(f => !f.startsWith('music/'));
+  check('no font files anywhere under public/', fonts.length === 0, fonts.join(', '));
+  check('no video files anywhere under public/', video.length === 0, video.join(', '));
+  check('audio only under public/music/', stray.length === 0, stray.join(', '));
+
+  /* The weight, in the output of every run, so nobody has to go and look it up
+   * to know what the tracks cost. */
+  const tracks = audio.filter(f => f.startsWith('music/'));
+  const bytes = tracks.reduce((n, f) => n + statSync(join(PUB, f)).size, 0);
+  console.log(`  SIZE  public/music/ ships ${tracks.length} file(s), ` +
+    `${(bytes / 1048576).toFixed(2)} MB`);
 }
 
 console.log('\n== 3. links and routing ==');
@@ -89,7 +128,11 @@ console.log('\n== 3. links and routing ==');
     const s = read(f);
     for (const m of new Set([...s.matchAll(/href="(\/[^"#?]*)/g)].map(x => x[1]))) {
       if (ROUTES[m]) { if (ROUTES[m] !== f) inbound[m]++; }
-      else if (!/\.(png|xml|txt|ico|svg)$/.test(m)) dangling.push(`${f} -> ${m}`);
+      /* css and js are here because they were missing: this list is what tells
+       * an asset apart from a route, and without them a perfectly ordinary
+       * <link href="/arcade.css"> was reported as a link to a page that does
+       * not exist. */
+      else if (!/\.(png|xml|txt|ico|svg|css|js)$/.test(m)) dangling.push(`${f} -> ${m}`);
     }
     for (const m of s.matchAll(/href="(\/[a-z0-9-]+\.html)"/g)) dotHtml.push(`${f} -> ${m[1]}`);
   }

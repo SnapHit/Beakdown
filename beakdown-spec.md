@@ -6,9 +6,9 @@ Everything needed to rebuild this game from nothing. Written 2026-07-26, after t
 
 | | |
 |---|---|
-| Size | 87,653 bytes |
-| sha256 | `a80ea1f4a30b0000d1af2130219c6bca111c6c81ee468947b89c7f084175318d` |
-| Revision | 17 August 2026, pause protocol, wall clock splash hold |
+| Size | 88,363 bytes |
+| sha256 | `a961c813247b6f4b1c7bcf78208d251b28663dd7d8e0cd5197ae2073dd8b3230` |
+| Revision | 17 August 2026, playlist order list |
 
 The deployment conversation checks every deploy against that size and hash, so update both lines here whenever the file changes.
 

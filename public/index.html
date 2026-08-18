@@ -567,10 +567,9 @@ const MUS={
 };
 
 /* ---- THE PLAYLIST -------------------------------------------------
-   Five recorded tracks, in order, wrapping from the fifth back to the
-   first and running for as long as the page is open. There is no picker
-   on purpose: the order IS the set, and reordering it is done by renaming
-   files in public/music/ rather than by a table here.
+   Five recorded tracks, played in the order TUNE_ORDER gives, wrapping
+   from the last back to the first and running for as long as the page is
+   open. There is no picker on purpose: the order IS the set.
 
    STREAMED, NOT DECODED. decodeAudioData on a three minute track is tens
    of megabytes of PCM held resident, and the target device is a five year
@@ -581,7 +580,20 @@ const MUS={
    SAME ORIGIN. music/ is relative, so it is the same kind of request that
    fetched the page, which is why it is not the class of thing the zero
    off origin rule forbids. */
-const TUNE_COUNT=5;
+/* THE ORDER, AND WHY IT IS A LIST RATHER THAN ARITHMETIC.
+
+   This was tuneWrap(i)+1, so position n always played track-n.m4a and the
+   only way to reorder was to rename files. That is not safe any more:
+   public/_headers serves /music/* as immutable for a year, so a renamed
+   file is a NEW URL while the old name sits in every existing visitor's
+   cache. Reordering by rename would leave anyone who has already visited
+   on the old sequence until that cache expires, which could be months.
+
+   So the mapping from POSITION to FILE lives here instead. Everything else
+   in this file counts in positions; these numbers are the files on disk,
+   and those never move. To reorder, edit this line and nothing else. */
+const TUNE_ORDER=[2,1,3,4,5];
+const TUNE_COUNT=TUNE_ORDER.length;
 const TUNE_GAIN=1.58;            // the masters sit about 4 dB under a streaming level
 const TUNE_FADE_IN=2.00;         // seconds, the first track arriving
 const TUNE_CROSSFADE=2.40;       // seconds the outgoing and incoming overlap
@@ -607,7 +619,7 @@ const tune={
 };
 
 function tuneWrap(i){ return ((i%TUNE_COUNT)+TUNE_COUNT)%TUNE_COUNT; }
-function tuneFile(i){ return 'music/track-'+(tuneWrap(i)+1)+'.m4a'; }
+function tuneFile(i){ return 'music/track-'+TUNE_ORDER[tuneWrap(i)]+'.m4a'; }
 
 /* THE ELEMENTS, AND THE PREFETCH. Called from the frame loop once the
    splash has actually been painted, never before: nothing is fetched until

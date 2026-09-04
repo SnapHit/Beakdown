@@ -309,3 +309,27 @@ body.zoomed .shrink{display:grid}
              inset 0 1px 0 rgba(255,255,255,.55);
 }
 .visit:hover,.cab .visit:focus-visible{filter:brightness(1.06)}
+
+/* THE FOCUS RING IS THE COMPONENT'S OWN, and it was not before.
+
+   A keyboard user only ever saw a ring here because each of the four content
+   pages happens to define
+   :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}.
+   A cabinet meant to drop into a page should not depend on four files it knows
+   nothing about, and the studio's brightness(1.06) alone is not something
+   anybody can see.
+
+   That borrowed rule was also RESHAPING THE BUTTON. Its border-radius:2px beat
+   the 999px on .op-btn, because the pages' inline <style> comes after the
+   arcade.css <link>, so the pill collapsed into a rounded rectangle the instant
+   it took focus. The radius is restated here at a specificity that holds.
+
+   The ring is amber-lit and sits OUTSIDE the pill, on the page background
+   rather than on the orange, which is what keeps a warm colour legible against
+   a warm button. The page rules are left exactly as they are; this simply wins
+   for this one element. */
+.visit:focus-visible{
+  outline:3px solid var(--arc-amber-lit);
+  outline-offset:3px;
+  border-radius:999px;
+}

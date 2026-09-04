@@ -1,7 +1,18 @@
 # Music
 
-Five original tracks, played in numbered order, crossfading, looping
-forever. Reorder by renaming files, never by a mapping table in code.
+Five original tracks, crossfading, looping forever. The play order is
+NOT the file numbering: it lives in `TUNE_ORDER` in public/index.html and
+is currently 2, 1, 3, 4, 5.
+
+**Reorder by editing TUNE_ORDER. Never by renaming these files.** This
+line used to say the opposite, and following it now would be a mistake.
+public/_headers serves /music/* with
+`Cache-Control: public, max-age=31536000, immutable`, so a renamed file is
+a NEW URL while the old name sits in every existing visitor's cache for up
+to a year. Renaming would leave anyone who has already been here on the old
+sequence until that expires, so two visitors would hear two different sets.
+index.html carries no such cache, so editing the list changes the order for
+everyone at once.
 
 ## Encoding
 

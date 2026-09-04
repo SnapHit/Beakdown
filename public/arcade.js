@@ -124,10 +124,15 @@
           '<span class="slot"></span><span class="ret"></span><span class="slot"></span>' +
         '</div>' +
       '</div>' +
-      '<a class="visit" target="_blank" rel="noopener">PLAY IT FULL SIZE</a>';
+      '<a class="op-btn visit" target="_blank" rel="noopener">' +
+        '<span></span>' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11h11.2l-4.6-4.6L12 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"/></svg>' +
+      '</a>';
 
     const visit = cab.querySelector('.visit');
     visit.href = GAME.site;
+    // The span carries the label; the arrow beside it is decorative.
+    visit.querySelector('span').textContent = 'PLAY IT FULL SIZE';
     visit.setAttribute('aria-label', 'Open ' + GAME.name + ' on its own site');
 
     const screen = cab.querySelector('.screen');

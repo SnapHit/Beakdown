@@ -272,10 +272,40 @@ body.zoomed .shrink{display:grid}
   box-shadow:inset 0 0 0 1px rgba(150,180,210,.4);
 }
 
-.cab .visit{
-  display:block;margin:18px auto 0;width:max-content;
-  font:800 11px/1 system-ui,sans-serif;letter-spacing:.18em;
-  color:var(--arc-amber);text-decoration:none;border-bottom:1px solid rgba(255,148,36,.45);
-  padding-bottom:5px;
+/* THE CALL TO ACTION, matching the redesign on snap-hit.online. It was an
+   underlined text link; it is now a filled pill with an arrow, built from the
+   studio's shared .op-btn base plus a .visit override, both taken verbatim so
+   a future sync against the studio is a straight diff.
+
+   No new custom property was introduced, so there is nothing to --arc- prefix
+   here: every value in both rules is a literal. The prefix rule still stands
+   for anything added later.
+
+   THE ONE DEVIATION IS min-height. The studio's padding gives a 35px tall
+   control, and this one is a tap target on a phone, where 44px is the floor
+   this repo holds itself to. The padding is left exactly as the studio has it
+   and the height is raised underneath it, so the pill grows rather than the
+   type moving. */
+.op-btn{
+  display:inline-flex;align-items:center;gap:9px;margin-top:18px;
+  padding:11px 17px;border-radius:999px;text-decoration:none;
+  background:radial-gradient(circle at 34% 26%,#ffd9a2,#ff9424 58%,#a04d06);
+  color:#2a1402;font:800 11px/1 system-ui,sans-serif;letter-spacing:.16em;
+  box-shadow:0 0 0 1px rgba(255,214,150,.6),0 6px 18px -6px rgba(255,148,36,.8),
+             inset 0 1px 0 rgba(255,255,255,.5);
 }
-.cab .visit:hover{color:var(--arc-amber-lit);border-bottom-color:var(--arc-amber-lit)}
+.op-btn svg{width:13px;height:13px;fill:currentColor}
+.op-btn:hover{filter:brightness(1.08)}
+
+.visit{
+  position:relative;z-index:1;
+  display:flex;margin:13px auto 0;width:max-content;
+  min-height:44px;box-sizing:border-box;
+  background:radial-gradient(circle at 34% 26%,#ffd9a2,#ff9424 62%,#d06a0c);
+  color:#1c0c00;
+  box-shadow:0 0 0 1px rgba(255,214,150,.65),
+             0 0 18px -4px rgba(255,148,36,.6),
+             0 0 40px -16px rgba(255,148,36,.45),
+             inset 0 1px 0 rgba(255,255,255,.55);
+}
+.visit:hover,.cab .visit:focus-visible{filter:brightness(1.06)}
